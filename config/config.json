@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Kovai1252*",
+    "database": "collegeadmin",
+    "host": "103.160.107.134",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Kovai1252*",
+    "database": "database_test",
+    "host": "103.160.107.134",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Kovai1252*",
+    "database": "database_production",
+    "host": "103.160.107.134",
+    "dialect": "postgres"
+  }
+}
