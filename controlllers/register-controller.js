@@ -131,7 +131,7 @@ exports.login = async (req, res, next) => {
       expiresIn: 168,
       
     };
-    res.status(500).json({ message: 'Logged in successfully',result });
+    res.status(200).json({ message: 'Logged in successfully',result });
   }
 
 
