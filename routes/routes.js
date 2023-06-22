@@ -21,7 +21,7 @@ route.post("/role", auth1.role);
 route.get("/rolelist",auth1.rolelist)
 route.get('/create_password', auth.verifyEmail)
 route.post('/login',auth.login)
-route.get('/forgot_password',auth.forgotPassword)
+route.post('/forgot_password',auth.forgotPassword)
 route.get('/reset_password',auth.resetPassword)
 route.post('/subjects',auth2.subjects)
 route.post('/class',auth3.classes)
