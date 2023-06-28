@@ -19,10 +19,10 @@ var route = require("express").Router();
 route.post("/register", auth.register);
 route.post("/role", auth1.role);
 route.get("/rolelist",auth1.rolelist)
-route.get('/create_password', auth.verifyEmail)
+route.post('/create_password', auth.verifyEmail)
 route.post('/login',auth.login)
 route.post('/forgot_password',auth.forgotPassword)
-route.get('/reset_password',auth.resetPassword)
+route.post('/reset_password',auth.resetPassword)
 route.post('/subjects',auth2.subjects)
 route.post('/class',auth3.classes)
 route.post('/department',auth4.department)
