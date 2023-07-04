@@ -36,7 +36,7 @@ exports.register = async (req, res, next) => {
     from: EMAIL_USERNAME,
     to: req.body.email,
     subject: 'Verify your email address',
-    html: `Please click <a href="http://localhost:8080/create_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
+    html: `Please click <a href="https://www.odooformybusiness.com/create_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
   };
   const mail = await transporter.sendMail(mailOptions);
   if (mail.accepted.length) {
@@ -132,7 +132,7 @@ exports.login = async (req, res, next) => {
       expiresIn: 168,
       
     };
-    res.status(500).json({ message: 'Logged in successfully',result });
+    res.status(200).json({ message: 'Logged in successfully',result });
   }
 
 
@@ -161,7 +161,7 @@ exports.forgotPassword = async (req, res, next) => {
     from: EMAIL_USERNAME,
     to: req.body.email,
     subject: 'Password reset link',
-    html: `Please click <a href="http://localhost:8080/reset_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
+    html: `Please click <a href="https://www.odooformybusiness.com/reset_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
   };
   const mail = await transporter.sendMail(mailOptions);
   if (mail.accepted.length) {
