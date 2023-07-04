@@ -22,14 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     //sub_code: DataTypes.STRING,
     sub_name: DataTypes.STRING,
-    clg_code:DataTypes.STRING
+    clg_code:DataTypes.STRING,
+    sub_code:DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'subject_details',
   });
   subject_details.associate = function(models) {
     models.subject_details.hasMany(models.timetable, { foreignKey: 'sub_code' });
-    
-  };
+    models.subject_details.hasMany(models.staff_sub_details, { foreignKey: 'sub_code' });
+  }
   return subject_details;
 };

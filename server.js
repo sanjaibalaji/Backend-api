@@ -1,19 +1,28 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const passport = require("passport")
 const cors = require("cors");
-const passport = require("passport");
-const route = require('./routes/routes')
+const cookieSession = require('cookie-session');
+const route = require('./routes/routes');
 const db = require("./models");
 const app = express();
+require ('./middlewares/passport')
  
 
    app.use(cors({
    origin: '*'
 }));
+app.use(cookieSession({
+  name: 'google-auth-session',
+  keys: ['key1', 'key2']
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.use(bodyParser.urlencoded());
 
 app.use(bodyParser.json());
-require("./middlewares/passport")(passport);
 app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(route);

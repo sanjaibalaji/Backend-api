@@ -1,5 +1,7 @@
 const db = require("../models");
+const batch_details = require("../models/batch_details");
 const Classes = db.classes;
+const BatchDetails = db.batch_details;
 
 exports.classes = async (req, res, next) => {
     const {dept_id,section,strength,batch} = req.body;
@@ -29,4 +31,27 @@ exports.classes = async (req, res, next) => {
       else {
         return res.status(400).json({ error: "error" });
       }
+}
+
+exports.classlist = async (req, res, next) => {
+  const id = req.query.id;
+  console.log(id)
+  try {
+    const users = await BatchDetails.findAll(
+      {where:{id:id},
+      attributes: ['id'],
+      include: [{
+        model: Classes,
+        attributes: ['section'],
+      }],
+
+    },
+
+    );
+    res.json({ data: users })
+  } catch (error) {
+    console.log(error)
+  }
+
+
 }

@@ -15,13 +15,16 @@ module.exports = (sequelize, DataTypes) => {
   }
   batch_details.init({
     batch: DataTypes.STRING,
-    year: DataTypes.STRING
+    year: DataTypes.STRING,
+    sessions:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'batch_details',
   });
   batch_details.associate = function(models) {
     models.batch_details.belongsTo(models.department, { foreignKey: 'batch_id' });
+    models.batch_details.hasMany(models.classes, { foreignKey: 'id' });
   }
+
   return batch_details;
 };

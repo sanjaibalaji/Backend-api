@@ -57,5 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'register',
   });
+
+  register.associate = function(models) {
+    models.register.hasMany(models.dept_staff_details, { foreignKey: 'id' });
+  }
   return register;
 };

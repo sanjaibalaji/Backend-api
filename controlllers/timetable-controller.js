@@ -1,7 +1,7 @@
 const db = require("../models/index");
 const Department=db.department
 const Timetable=db.timetable
-
+const subjectDetails=db.subject_details
 // import { db } from '../../../models';
 
 
@@ -51,22 +51,19 @@ exports.timetable = async (req, res, next) => {
 }
 
 exports.getTimetableList = async (req,res,next) => {
+  const {dept_id,class_code,batch_id} =req.query;
+  console.log(dept_id,class_code,batch_id)
 try{
   const users = await Timetable.findAll({
     
-    // include:Department,
+    where:[{dept_id:dept_id},{class_code:class_code},{batch_id:batch_id}],
   
-    attributes:['id'],
+    attributes:['id','dayorder','period_no'],
     include:[{
-      model:Department,
-      attributes:['id','dept_name'],
+      model:subjectDetails,
+      attributes:['sub_name'],
+      
     }],
-    // include:[{
-    //   model:Department,
-    //   attributes:['id','dept_name'],
-
-    // }]
-  
     
   },
   

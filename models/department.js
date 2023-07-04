@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   //   models.Department.belongsTo(models.Timetable, { foreignKey: 'dept_code' });
   // }
   department.associate = function(models) {
-    models.department.hasMany(models.timetable, { foreignKey: 'id' });
+    // models.department.hasMany(models.timetable, { foreignKey: 'dept_id' });
     models.department.hasMany(models.batch_details, { foreignKey: 'id' });
 
     

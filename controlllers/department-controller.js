@@ -33,7 +33,12 @@ exports.department = async (req, res, next) => {
   }
 }
 exports.departmentlist = async (req, res, next) => {
-  const result = await Department.findAll({ attributes: ['id', 'dept_name'] });
+  const result = await Department.findAll({ 
+    
+    attributes: ['dept_code','dept_name'],
+    group:['dept_code','dept_name'],
+    distinct:true,
+     });
   if (result) {
     return res.status(200).json({ data: result });
   } else {
@@ -50,7 +55,7 @@ exports.departmentbatchlist = async (req, res, next) => {
       attributes: ['id'],
       include: [{
         model: BatchDetails,
-        attributes: ['batch', 'year'],
+        attributes: ['batch','year','sessions'],
       }],
 
     },

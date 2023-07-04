@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    sub_code: DataTypes.STRING,
+    sub_code: DataTypes.INTEGER,
     user_id: DataTypes.STRING,
     dept_id: DataTypes.INTEGER,
     class_code: DataTypes.STRING,
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   // };
 
   timetable.associate = function(models) {
-    models.timetable.belongsTo(models.department, { foreignKey: 'dept_id' });
+    models.timetable.belongsTo(models.subject_details, { foreignKey: 'sub_code' });
     // models.timetable.belongsTo(models.subject_details, { foreignKey: 'id' });
   }
   // timetable.associate = function(models) {

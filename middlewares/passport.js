@@ -35,4 +35,25 @@ module.exports = passport => {
     );
 
   };
+
+  // const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+  
+passport.serializeUser((user , done) => {
+    done(null , user);
+})
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+  
+passport.use(new GoogleStrategy({
+    clientID:"870696435915-ijo997toq8hiqik18a5hv26n8tst904u.apps.googleusercontent.com", // Your Credentials here.
+    clientSecret:"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", // Your Credentials here.
+    callbackURL:"http://localhost:8080/auth/callback",
+    passReqToCallback:true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    return done(null, profile);
+  }
+));
   

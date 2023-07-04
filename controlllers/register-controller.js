@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const { error } = require("console");
 
 
+
 exports.register = async (req, res, next) => {
   if (!req.body.email) {
     return res.status(400).json({ error: 'Email is  required' });
@@ -66,22 +67,22 @@ exports.verifyEmail = async (req, res, next) => {
   const { verificationToken } = req.query;
   const user = await Register.findOne({ where: { verificationToken } });
   if (!user) {
-    return res.status(400).json({ error: 'Invalid verification token' });
+    return res.status(400).json({ error: 'Email not found' });
   }
- 
+  
   const result = await Register.update({ isVerified: true }, { where: { verificationToken } })
   console.log(result)
-  if (!req.body.password) {
-    return res.status(400).json({ error:'Password is  required'});
-  }
+  
   if ([result]) {
-    
+    if (!req.body.password) {
+      return res.status(400).json({ error:'Password is  required'});
+    }
     console.log(req.body.password)
     const salt = bcrypt.genSaltSync();
     req.body.password = bcrypt.hashSync(req.body.password, salt);
     const result = await Register.update({ password: req.body.password }, { where: { verificationToken } }, { verificationToken: null })
     const verified = await Register.update({ verificationToken: null }, { where: { isVerified: true } })
-
+    
 
     if (result) {
       return res.status(200).json({ message: "User is  registered" });
@@ -239,8 +240,6 @@ exports.resetPassword = async (req, res, next) => {
 //   res.clearCookie("XSRF-token");
 //   return res.redirect('/');
 // }
-
-
 
 
 
