@@ -42,9 +42,9 @@ route.get('/staffsubjectlist',auth6.staffsubjectlist)
 
 
 
-route.get('/google', (req, res) => {
-  res.send("<button><a href='/auth'>Login With Google</a></button>")
-});
+//route.get('/google', (req, res) => {
+ // res.send("<button><a href='/auth'>Login With Google</a></button>")
+//});
 
 // Auth 
 route.get('/auth' , passport.authenticate('google', { scope:

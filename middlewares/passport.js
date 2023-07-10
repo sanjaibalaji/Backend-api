@@ -49,7 +49,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID:"870696435915-ijo997toq8hiqik18a5hv26n8tst904u.apps.googleusercontent.com", // Your Credentials here.
     clientSecret:"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", // Your Credentials here.
-    callbackURL:"https://www.odooformybusiness.com/auth/callback",
+    callbackURL:"https://odooformybusiness.com/auth/callback",
     passReqToCallback:true
   },
   function(request, accessToken, refreshToken, profile, done) {
