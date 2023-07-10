@@ -51,7 +51,7 @@ route.get('/auth' , passport.authenticate('google', { scope:
   [ 'email', 'profile' ]
 }));
 
-// Auth Callback
+// Auth Callback/////
 route.get( '/auth/callback',
   passport.authenticate('google', {
       successRedirect: '/auth/callback/success',
@@ -62,8 +62,9 @@ route.get( '/auth/callback',
 route.get('/auth/callback/success' , (req , res) => {
   if(!req.user)
       res.redirect('/auth/callback/failure');
-  res.send("Welcome " + req.user.email);
-});
+      if (object && object.email) {
+       res.send("Welcome " + req.user.email);
+}});
 
 // failure
 route.get('/auth/callback/failure' , (req , res) => {
