@@ -6,12 +6,13 @@ const cookieSession = require('cookie-session');
 const route = require('./routes/routes');
 const db = require("./models");
 const app = express();
-require ('./middlewares/passport')
+var passports = require ('./middlewares/passport')
  
 
    app.use(cors({
    origin: '*'
 }));
+
 app.use(cookieSession({
   name: 'google-auth-session',
   keys: ['key1', 'key2']
