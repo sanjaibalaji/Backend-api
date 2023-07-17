@@ -5,7 +5,8 @@ const db = require("../models");
 const Register = db.register;
 const User = require("../models/register");
 const bcrypt = require('bcrypt')
-const { SECRET } = require("../config");
+// const { SECRET } = require("../config");
+const SECRET =  "sjakfdhhhhhhhsahfaskhfkashfkashfnhhhhhkaskk" 
 // import config from './config';
 // import { db } from './models';
 
@@ -36,7 +37,7 @@ module.exports = passport => {
 
   };
 
-  // const passport = require('passport');
+
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
   
 passport.serializeUser((user , done) => {
@@ -47,13 +48,43 @@ passport.deserializeUser(function(user, done) {
 });
   
 passport.use(new GoogleStrategy({
-    clientID:"870696435915-kof0b6np2leg70u3prn3j9uoqba0npgn.apps.googleusercontent.com", // Your Credentials here.
-    clientSecret:"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", // Your Credentials here.
+    clientID:"870696435915-k6827g0o4ol7n1r647oq1qtcibspbu0p.apps.googleusercontent.com", // Your Credentials here.
+    clientSecret:"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", // Your Credentials here.
     callbackURL:"http://localhost:8080/auth/callback",
     passReqToCallback:true
   },
-  function(request, accessToken, refreshToken, profile) {
-    return (null, profile);
+  async (accessToken,refreshToken,profile,done) => {
+    // try {
+    //   const user = await Register.findOne({ email: profile.emails[0].value });
+    //   // const {id,displayName,emails} = profile;
+
+    //   // const email = emails[0].value;
+    //   // const [user] = await Register.findOne({where:{email}});
+
+    //   // done(user);
+    // // console.log("sanjai", +user)
+    //   if (user) {
+    //     // If the user exists, return the user
+    //     let token = jwt.sign(
+    //       {
+    //         user_id: user.user_id,
+    //         role: user.role_name,
+    //         email: user.email
+    //       },
+    //       SECRET,
+    //       { expiresIn: "7 days" }
+    //     );
+    //     let result = {
+    //       role: user.role_name,
+    //       email: user.email,
+    //       token: `${token}`,
+    //       expiresIn: 168,
+          
+    //     };
+    //     res.status(200).json({ message: 'user available',result });
+    // }} catch (error){
+    //   done(error,null);
+    // }
   }
 ));
   

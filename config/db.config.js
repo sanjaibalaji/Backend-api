@@ -5,6 +5,6 @@ module.exports = {
   DB: "collegeadmin",
   dialect: "postgres",
   EMAIL_USERNAME: "sanjainsivam@gmail.com",
-  EMAIL_PASSWORD: "fhsstepburkxprer"
+  EMAIL_PASSWORD: "fvktbtebjuyprijq"
 
 };

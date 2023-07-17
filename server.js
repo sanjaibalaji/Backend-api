@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport")
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cors = require("cors");
-const cookieSession = require('cookie-session');
+const session = require('express-session');
 const route = require('./routes/routes');
 const db = require("./models");
 const app = express();
+
 var passports = require ('./middlewares/passport')
  
 
@@ -13,10 +15,20 @@ var passports = require ('./middlewares/passport')
    origin: '*'
 }));
 
-app.use(cookieSession({
-  name: 'google-auth-session',
-  keys: ['key1', 'key2']
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
 }));
+
+// Initialize passport and session middleware
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// app.use(cookieSession({
+//   name: 'google-auth-session',
+//   keys: ['key1', 'key2']
+// }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -26,6 +38,31 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(bodyParser.urlencoded({ extended: true }));
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:"870696435915-k6827g0o4ol7n1r647oq1qtcibspbu0p.apps.googleusercontent.com",
+      clientSecret:"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",
+      callbackURL: 'http://localhost:8080/auth/callback', // This is the URL where Google will redirect after authentication
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // You can access the user's profile information here or save it to a database
+      // For simplicity, we'll just pass the profile object to the callback
+      return done(null, profile);
+    }
+  )
+);
+
+// Serialize and deserialize user information
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+
 app.use(route);
 app.use('/', route)
 

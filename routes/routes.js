@@ -1,3 +1,4 @@
+const passport = require('passport');
 const auth = require('../controlllers/register-controller')
 const auth1 = require('../controlllers/roles-controller')
 const auth2 = require('../controlllers/subjectDetails-controller')
@@ -8,13 +9,11 @@ const auth6 = require('../controlllers/staffSubDetails-controller')
 const auth7 = require('../controlllers/timetable-controller')
 const auth8 = require('../controlllers/dept_staff_details-controller')
 
-const passport=require("passport")
-// const passport = require('../middlewares/passport')
+const db = require('../models')
+const Register = db.register
 const { jwtStrategy } = require('../middlewares/strategy');
-// const verifyEmail = require('../controlllers/controller')
-// const login =require('../controlllers/controller')
-// const forgot_password =require('../controlllers/controller')
-// const reset_password =require('../controlllers/controller')
+const register = require('../models/register');
+
 
 var route = require("express").Router();
 
@@ -40,36 +39,41 @@ route.get('/classlist',auth3.classlist)
 route.get('/deptstafflist',auth8.deptstafflist)
 route.get('/staffsubjectlist',auth6.staffsubjectlist)
 
+// Set up routes
 
+// Initiates the Google OAuth authentication
+route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-route.get('/google', (req, res) => {
-  res.send("<button><a href='/auth'>Login With Google</a></button>")
-});
+route.get(
+  '/auth/callback',
+  passport.authenticate('google', { failureRedirect: '/login'}),
+    // successRedirect: '/profile',
+    async (req,res) => {
+      try{
+        const email = req.user.emails[0].value;
+        const user = await Register.findOne({where:{email}});
 
-// Auth 
-route.get('/auth' , passport.authenticate('google', { scope:
-  [ 'email', 'profile' ]
-}));
+        if(user) {
+          res.send({message:"user available",user})
+        } else {
+          res.redirect('/login');
+        }
+      } catch (error) {
+        res.send ({message:"error"});
+      }
+    }
 
-// Auth Callback/////
-route.get( '/auth/callback',
-  passport.authenticate('google', {
-      successRedirect: '/auth/callback/success',
-      failureRedirect: '/auth/callback/failure'
-}));
+);
 
-// Success 
-route.get('/auth/callback/success' , (req , res) => {
-  if(!req.user)
-      res.redirect('/auth/callback/failure');
-      if (object && object.email) {
-       res.send("Welcome " + req.user.email);
-}});
+// // Route for the user profile page
+// route.get('/profile', (req, res) => {
+//     console.log(req.user.emails)
+//   res.send('Welcome, ' + req.user.displayName +' '+ req.user.emails[0].value);
+// });
 
-// failure
-route.get('/auth/callback/failure' , (req , res) => {
-  res.send("Error");
-})
-
+// Route for the login page
+// route.get('/login', (req, res) => {
+//   res.send('Please login with Google.');
+// });
 
 module.exports = route
