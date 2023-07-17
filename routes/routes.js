@@ -44,6 +44,7 @@ route.get('/staffsubjectlist',auth6.staffsubjectlist)
 // Initiates the Google OAuth authentication
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
+
 route.get(
   '/auth/callback',
   passport.authenticate('google', { failureRedirect: '/login'}),
@@ -52,6 +53,11 @@ route.get(
       try{
         const email = req.user.emails[0].value;
         const user = await Register.findOne({where:{email}});
+
+//route.get('/google', (req, res) => {
+ // res.send("<button><a href='/auth'>Login With Google</a></button>")
+//});
+
 
         if(user) {
           res.send({message:"user available",user})

@@ -54,37 +54,39 @@ passport.use(new GoogleStrategy({
     passReqToCallback:true
   },
   async (accessToken,refreshToken,profile,done) => {
-    // try {
-    //   const user = await Register.findOne({ email: profile.emails[0].value });
-    //   // const {id,displayName,emails} = profile;
+    try {
+      const user = await Register.findOne({ email: profile.emails[0].value });
+      // const {id,displayName,emails} = profile;
 
-    //   // const email = emails[0].value;
-    //   // const [user] = await Register.findOne({where:{email}});
+      // const email = emails[0].value;
+      // const [user] = await Register.findOne({where:{email}});
 
-    //   // done(user);
-    // // console.log("sanjai", +user)
-    //   if (user) {
-    //     // If the user exists, return the user
-    //     let token = jwt.sign(
-    //       {
-    //         user_id: user.user_id,
-    //         role: user.role_name,
-    //         email: user.email
-    //       },
-    //       SECRET,
-    //       { expiresIn: "7 days" }
-    //     );
-    //     let result = {
-    //       role: user.role_name,
-    //       email: user.email,
-    //       token: `${token}`,
-    //       expiresIn: 168,
-          
-    //     };
-    //     res.status(200).json({ message: 'user available',result });
-    // }} catch (error){
-    //   done(error,null);
-    // }
+      // done(user);
+    console.log("sanjai", +user)
+      if (user) {
+        // If the user exists, return the user
+        let token = jwt.sign(
+            {
+              user_id: user.user_id,
+              role: user.role_name,
+              email: user.email
+            },
+            SECRET,
+            { expiresIn: "7 days" }
+      );
+      
+          let result = { 
+            user_id:  user.user_id, 
+            role: user.role_name,
+            email: user.email,
+            token: `Bearer ${token}`,
+            expiresIn: 168
+          };
+          console.log(result);
+        done(null, result);
+    }} catch (error){
+      done(error,null);
+    }
   }
 ));
   
