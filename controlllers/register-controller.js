@@ -36,7 +36,7 @@ exports.register = async (req, res, next) => {
     from: EMAIL_USERNAME,
     to: req.body.email,
     subject: 'Verify your email address',
-    html: `Please click <a href="https://www.odooformybusiness.com/create_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
+    html: `Please click <a href="https://student.odooformybusiness.com/create_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
   };
   const mail = await transporter.sendMail(mailOptions);
   if (mail.accepted.length) {
@@ -69,10 +69,10 @@ exports.verifyEmail = async (req, res, next) => {
   if (!user) {
     return res.status(400).json({ error: 'Email not found' });
   }
-  
+
   const result = await Register.update({ isVerified: true }, { where: { verificationToken } })
   console.log(result)
-  
+
   if ([result]) {
     if (!req.body.password) {
       return res.status(400).json({ error:'Password is  required'});
@@ -82,7 +82,6 @@ exports.verifyEmail = async (req, res, next) => {
     req.body.password = bcrypt.hashSync(req.body.password, salt);
     const result = await Register.update({ password: req.body.password }, { where: { verificationToken } }, { verificationToken: null })
     const verified = await Register.update({ verificationToken: null }, { where: { isVerified: true } })
-    
 
     if (result) {
       return res.status(200).json({ message: "User is  registered" });
@@ -177,7 +176,7 @@ exports.forgotPassword = async (req, res, next) => {
     from: EMAIL_USERNAME,
     to: req.body.email,
     subject: 'Password reset link',
-    html: `Please click <a href="https://www.odooformybusiness.com/reset_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
+    html: `Please click <a href="https://student.odooformybusiness.com/reset_password?verificationToken=${verificationToken}">here</a> to verify your email address.`
   };
   const mail = await transporter.sendMail(mailOptions);
   if (mail.accepted.length) {
@@ -208,8 +207,10 @@ exports.resetPassword = async (req, res, next) => {
   const salt = bcrypt.genSaltSync();
   req.body.password = bcrypt.hashSync(req.body.password, salt);
   const result = await Register.update({ password: req.body.password }, { where: { verificationToken } })
+
   const verified = await Register.update({verificationToken:null},{where:{email:user.email}})
-  
+  const verified = await Register.update({ verificationToken: null }, { where: { email:user.email } })
+
 
   if (result) {
     return res.status(200).json({ message: "Password reset successfull" });

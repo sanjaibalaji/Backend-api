@@ -41,9 +41,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 passport.use(
   new GoogleStrategy(
     {
-      clientID:"870696435915-k6827g0o4ol7n1r647oq1qtcibspbu0p.apps.googleusercontent.com",
-      clientSecret:"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",
-      callbackURL: 'http://localhost:8080/auth/callback', // This is the URL where Google will redirect after authentication
+      clientID:"870696435915-8nd83qijctf9mti285hhtpfdjkrp7u9j.apps.googleusercontent.com",
+      clientSecret:"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",
+      callbackURL: 'https://odooformybusiness.com/auth/callback', // This is the URL where Google will redirect after authentication
     },
     (accessToken, refreshToken, profile, done) => {
       // You can access the user's profile information here or save it to a database
