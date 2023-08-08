@@ -38,6 +38,7 @@ route.post('/deptstaff',auth8.deptStaff)
 route.get('/classlist',auth3.classlist)
 route.get('/deptstafflist',auth8.deptstafflist)
 route.get('/staffsubjectlist',auth6.staffsubjectlist)
+route.get('/google',auth.gsign)
 
 // Set up routes
 
@@ -50,22 +51,22 @@ route.get(
   passport.authenticate('google', { failureRedirect: '/login'}),
     // successRedirect: '/profile',
     async (req,res) => {
-      try{
-        const email = req.user.emails[0].value;
-        const user = await Register.findOne({where:{email}});
-
-//route.get('/google', (req, res) => {
- // res.send("<button><a href='/auth'>Login With Google</a></button>")
-//});
-
-
-        if(user) {
-          res.send({message:"user available",user})
+      try {
+        req.user = { // Include other user profile data if needed
+          token: "akjshsakfdshjsha", // Replace 'token' with the variable that holds the JWT token
+        };
+        if (req.user) {
+          // Access user data and token from req.user
+          const userData = req.user;
+          const token = userData.token; // Access the token from req.user
+          // You can use the token as needed, for example, send it in the response
+          res.send( req.user );
         } else {
           res.redirect('/login');
         }
       } catch (error) {
-        res.send ({message:"error"});
+        console.log(error);
+        res.send({ message: "error" });
       }
     }
 

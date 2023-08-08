@@ -4,7 +4,8 @@ const { Strategy, ExtractJwt } = require("passport-jwt");
 const db = require("../models");
 const Register = db.register;
 const User = require("../models/register");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 // const { SECRET } = require("../config");
 const SECRET =  "sjakfdhhhhhhhsahfaskhfkashfkashfnhhhhhkaskk" 
 // import config from './config';
@@ -57,12 +58,14 @@ passport.use(new GoogleStrategy({
     try {
       const user = await Register.findOne({ email: profile.emails[0].value });
       // const {id,displayName,emails} = profile;
-
+      req.user = { // Include other user profile data if needed
+        token: "akjshsakfdshjsha", // Replace 'token' with the variable that holds the JWT token
+      };
       // const email = emails[0].value;
       // const [user] = await Register.findOne({where:{email}});
 
-      // done(user);
-    console.log("sanjai", +user)
+      done(req.user);
+    console.log("sanjai", +req.user)
       if (user) {
         // If the user exists, return the user
         let token = jwt.sign(
@@ -74,7 +77,7 @@ passport.use(new GoogleStrategy({
             SECRET,
             { expiresIn: "7 days" }
       );
-      
+      // req.user.token = "askjdjsad"
           let result = { 
             user_id:  user.user_id, 
             role: user.role_name,
@@ -82,9 +85,10 @@ passport.use(new GoogleStrategy({
             token: `Bearer ${token}`,
             expiresIn: 168
           };
-          console.log(result);
-        done(null, result);
-    }} catch (error){
+          console.log(req.user);
+        done(null,req.user);
+    }
+  } catch (error){
       done(error,null);
     }
   }

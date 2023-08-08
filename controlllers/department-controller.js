@@ -47,18 +47,19 @@ exports.departmentlist = async (req, res, next) => {
 }
 
 exports.departmentbatchlist = async (req, res, next) => {
-  const id = req.query.id;
-  console.log(id)
+  const dept_code = req.query.dept_code;
+  console.log(dept_code)
   try {
     const users = await Department.findAll(
-      {where:{id:id},
+      {where:{dept_code},
       attributes: ['id'],
       include: [{
+        require:false,
         model: BatchDetails,
-        attributes: ['batch','year','sessions'],
+        attributes: ['batch','year','sessions',],
       }],
 
-    },
+    }
 
     );
     res.json({ data: users })

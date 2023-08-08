@@ -97,6 +97,22 @@ exports.verifyEmail = async (req, res, next) => {
   }
 
 }
+exports.gsign = async (req,res,next) => {
+  const {email} =req.body;
+  if(!email) {
+    return res.status(400).json({ error: 'select the email' }); 
+  }
+  const user = await Register.findOne({ where: { email } });
+  // const verified = await Register.findOne({where:{isVerified:true}});
+  if(isVerified=true) {
+    return res.status(400).json({error:'email is not verified'})
+  }
+  if(!user) {
+    return res.status(400).json({error:'email is not registered'})
+  } else {
+    return res.status(200).json(user)
+  }
+}
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -185,29 +201,15 @@ exports.resetPassword = async (req, res, next) => {
   if (!user) {
     return res.status(400).json({ error: 'Invalid verification token' });
   }
-
-  // exports.checkPassword = check('password').trim().notEmpty().withMessage('Password required')
-  // .isLength({ min: 5 }).withMessage('password must be minimum 5 length')
-  // .matches(/(?=.*?[A-Z])/).withMessage('At least one Uppercase')
-  // .matches(/(?=.*?[a-z])/).withMessage('At least one Lowercase')
-  // .matches(/(?=.*?[0-9])/).withMessage('At least one Number')
-  // .matches(/(?=.?[#?!@$%^&-])/).withMessage('At least one special character')
-//   exports.validate = (req, res, next) => {
-// const errors = validationResult(req);
-// if (errors.isEmpty()) {
-//  return next();
-// } else {
-//  return res.status(400).json({ errors: errors.array() });
-// }
-// };
   if (!req.body.password) {
     return res.status(400).json({ error: 'Password is  required' });
   }
   console.log(req.body.password)
   const salt = bcrypt.genSaltSync();
   req.body.password = bcrypt.hashSync(req.body.password, salt);
-  const result = await Register.update({ password: req.body.password }, { where: { verificationToken } }, { verificationToken: null })
-  const verified = await Register.update({ verificationToken: null }, { where: { isVerified: true } })
+  const result = await Register.update({ password: req.body.password }, { where: { verificationToken } })
+  const verified = await Register.update({verificationToken:null},{where:{email:user.email}})
+  
 
   if (result) {
     return res.status(200).json({ message: "Password reset successfull" });

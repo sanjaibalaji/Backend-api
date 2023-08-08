@@ -38,9 +38,8 @@ module.exports = (sequelize, DataTypes) => {
   // }
   department.associate = function(models) {
     // models.department.hasMany(models.timetable, { foreignKey: 'dept_id' });
-    models.department.hasMany(models.batch_details, { foreignKey: 'id' });
+    models.department.hasMany(models.batch_details, { foreignKey: 'dept_code' });
 
-    
   };
   return department;
 
