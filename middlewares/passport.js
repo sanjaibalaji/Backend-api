@@ -49,9 +49,9 @@ passport.deserializeUser(function(user, done) {
 });
   
 passport.use(new GoogleStrategy({
-    clientID:"870696435915-k6827g0o4ol7n1r647oq1qtcibspbu0p.apps.googleusercontent.com", // Your Credentials here.
-    clientSecret:"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", // Your Credentials here.
-    callbackURL:"http://localhost:8080/auth/callback",
+    clientID:"870696435915-8nd83qijctf9mti285hhtpfdjkrp7u9j.apps.googleusercontent.com", // Your Credentials here.
+    clientSecret:"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", // Your Credentials here.
+    callbackURL:"https://odooformybusiness.com/auth/callback",
     passReqToCallback:true
   },
   async (accessToken,refreshToken,profile,done) => {
