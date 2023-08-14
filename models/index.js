@@ -13,7 +13,6 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const {readdirSync} =require('fs');
 const { basename:_basename, join } = require('path');
 const path = require('path');
-// import config from '../config';
 const basename = _basename(__filename);
 const db = {};
 
@@ -34,5 +33,4 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-// console.log(db)
 module.exports= db ;

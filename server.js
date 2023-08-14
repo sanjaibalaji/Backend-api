@@ -21,14 +21,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// Initialize passport and session middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
 
-// app.use(cookieSession({
-//   name: 'google-auth-session',
-//   keys: ['key1', 'key2']
-// }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -46,14 +39,11 @@ passport.use(
       callbackURL: 'https://odooformybusiness.com/auth/callback', // This is the URL where Google will redirect after authentication
     },
     (accessToken, refreshToken, profile, done) => {
-      // You can access the user's profile information here or save it to a database
-      // For simplicity, we'll just pass the profile object to the callback
       return done(null, profile);
     }
   )
 );
 
-// Serialize and deserialize user information
 passport.serializeUser((user, done) => {
   done(null, user);
 });
@@ -73,7 +63,7 @@ db.sequelize.sync()
   .catch((err) => {
     console.log("Failed to sync db: " + err.message);
   });
-// simple route
+
 app.get("/", (req, res) => {
   res.json({ message: `Server is running on port ${PORT}.` });
 });

@@ -40,26 +40,20 @@ route.get('/deptstafflist',auth8.deptstafflist)
 route.get('/staffsubjectlist',auth6.staffsubjectlist)
 route.get('/google',auth.gsign)
 
-// Set up routes
-
-// Initiates the Google OAuth authentication
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
 route.get(
   '/auth/callback',
   passport.authenticate('google', { failureRedirect: '/login'}),
-    // successRedirect: '/profile',
     async (req,res) => {
       try {
-        req.user = { // Include other user profile data if needed
-          token: "akjshsakfdshjsha", // Replace 'token' with the variable that holds the JWT token
+        req.user = { 
+          token: "akjshsakfdshjsha", 
         };
         if (req.user) {
-          // Access user data and token from req.user
           const userData = req.user;
-          const token = userData.token; // Access the token from req.user
-          // You can use the token as needed, for example, send it in the response
+          const token = userData.token; 
           res.send( req.user );
         } else {
           res.redirect('/login');
@@ -71,16 +65,5 @@ route.get(
     }
 
 );
-
-// // Route for the user profile page
-// route.get('/profile', (req, res) => {
-//     console.log(req.user.emails)
-//   res.send('Welcome, ' + req.user.displayName +' '+ req.user.emails[0].value);
-// });
-
-// Route for the login page
-// route.get('/login', (req, res) => {
-//   res.send('Please login with Google.');
-// });
 
 module.exports = route

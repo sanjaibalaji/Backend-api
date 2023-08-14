@@ -31,19 +31,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'timetable',
-  });
-  // timetable.associate = function(models) {
-  //   models.Timetable.hasMany(models.Department, { foreignKey: 'id' });
-    
-  // };
-
+  });;
   timetable.associate = function(models) {
     models.timetable.belongsTo(models.subject_details, { foreignKey: 'sub_code' });
-    // models.timetable.belongsTo(models.subject_details, { foreignKey: 'id' });
   }
-  // timetable.associate = function(models) {
-  //   models.timetable.belongsTo(models.subject_details, { foreignKey: 'id' });
-  // }
   return timetable;
 
   

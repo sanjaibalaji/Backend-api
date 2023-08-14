@@ -228,21 +228,5 @@ exports.resetPassword = async (req, res, next) => {
 }
 
 
-// exports.getProfile = async (req, res, next) => {
-
-// const existingUser = await Register.findOne({ where: { user_id: req.user.user_id } });
-// return res.status(200).json({data:existingUser });
- 
-
-// };
-
-// exports.logout =  async (req, res)=> {
-//   // if(req.user){
-//   //     req.user.update({loggedOutAt: new Date()});
-//   // }
-//   res.clearCookie("XSRF-token");
-//   return res.redirect('/');
-// }
-
 
 

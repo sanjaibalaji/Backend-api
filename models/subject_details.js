@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    //sub_code: DataTypes.STRING,
     sub_name: DataTypes.STRING,
     clg_code:DataTypes.STRING,
     sub_code:DataTypes.INTEGER

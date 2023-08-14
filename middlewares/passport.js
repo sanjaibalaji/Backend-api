@@ -6,10 +6,7 @@ const Register = db.register;
 const User = require("../models/register");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-// const { SECRET } = require("../config");
 const SECRET =  "sjakfdhhhhhhhsahfaskhfkashfkashfnhhhhhkaskk" 
-// import config from './config';
-// import { db } from './models';
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -49,25 +46,24 @@ passport.deserializeUser(function(user, done) {
 });
   
 passport.use(new GoogleStrategy({
-    clientID:"870696435915-8nd83qijctf9mti285hhtpfdjkrp7u9j.apps.googleusercontent.com", // Your Credentials here.
-    clientSecret:"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", // Your Credentials here.
+    clientID:"870696435915-8nd83qijctf9mti285hhtpfdjkrp7u9j.apps.googleusercontent.com", 
+    clientSecret:"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", 
     callbackURL:"https://odooformybusiness.com/auth/callback",
     passReqToCallback:true
   },
   async (accessToken,refreshToken,profile,done) => {
     try {
       const user = await Register.findOne({ email: profile.emails[0].value });
-      // const {id,displayName,emails} = profile;
-      req.user = { // Include other user profile data if needed
-        token: "akjshsakfdshjsha", // Replace 'token' with the variable that holds the JWT token
+      
+      req.user = {
+        token: "akjshsakfdshjsha", 
       };
-      // const email = emails[0].value;
-      // const [user] = await Register.findOne({where:{email}});
+     
 
       done(req.user);
     console.log("sanjai", +req.user)
       if (user) {
-        // If the user exists, return the user
+      
         let token = jwt.sign(
             {
               user_id: user.user_id,
@@ -77,7 +73,7 @@ passport.use(new GoogleStrategy({
             SECRET,
             { expiresIn: "7 days" }
       );
-      // req.user.token = "askjdjsad"
+      
           let result = { 
             user_id:  user.user_id, 
             role: user.role_name,

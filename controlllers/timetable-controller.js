@@ -2,7 +2,7 @@ const db = require("../models/index");
 const Department=db.department
 const Timetable=db.timetable
 const subjectDetails=db.subject_details
-// import { db } from '../../../models';
+
 
 
 exports.timetable = async (req, res, next) => {

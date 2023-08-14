@@ -20,24 +20,16 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-   // dept_code: DataTypes.STRING,
     dept_name: DataTypes.STRING,
     no_of_sections: DataTypes.INTEGER,
     user_id: DataTypes.STRING,
-    //year: DataTypes.STRING,
-   // college_code: DataTypes.STRING,
     batch_id:DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'department',
   });
-  // department.associate = function(models) {
-  //   models.department.hasMany(models.department, { foreignKey: 'stud_id' });
-  // department.associate = function(models) {
-  //   models.Department.belongsTo(models.Timetable, { foreignKey: 'dept_code' });
-  // }
+
   department.associate = function(models) {
-    // models.department.hasMany(models.timetable, { foreignKey: 'dept_id' });
     models.department.hasMany(models.batch_details, { foreignKey: 'dept_code' });
 
   };
