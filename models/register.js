@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   register.associate = function(models) {
-    models.register.hasMany(models.dept_staff_details, { foreignKey: 'id' });
+    models.register.hasMany(models.dept_staff_details, { foreignKey: 'dept_id' });
   }
   return register;
 };

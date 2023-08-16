@@ -28,11 +28,11 @@ exports.deptStaff = async (req, res, next) => {
 }
 
 exports.deptstafflist = async(req,res,next) => {
-  const id = req.query.id;
-  console.log(id)
+  const dept_id = req.query.dept_id;
+  console.log(dept_id)
   try {
     const users = await DeptStaff.findAll(
-      {where:{id:id},
+      {where:{dept_id:dept_id},
       attributes: ['user_id'],
       include: [{
         model: Register,
