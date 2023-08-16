@@ -33,7 +33,7 @@ exports.staffsubjectlist = async(req,res,next) => {
       attributes: ['user_id'],
       include: [{
         model: subjectDetails,
-        attributes: ['sub_code','sub_name'],
+        attributes: ['sub_code','sub_name','color_code','color_name'],
       }],
 
     },
