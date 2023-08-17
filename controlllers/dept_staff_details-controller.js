@@ -3,6 +3,8 @@ const dept_staff_details = require("../models/dept_staff_details");
 const { register } = require("./register-controller");
 const DeptStaff = db.dept_staff_details;
 const Register = db.register;
+const staffSubDetails = db.staff_sub_details
+const subjectDetails = db.subject_details
 
 
 exports.deptStaff = async (req, res, next) => {
@@ -38,11 +40,20 @@ exports.deptstafflist = async(req,res,next) => {
         model: Register,
         attributes: ['user_id','firstName','lastName'],
       }],
-
+           
     },
 
     );
-    res.json({ data: users })
+    const subUserId = users.map(user => user.user_id)
+    const subDetails = await staffSubDetails.findAll({
+      where:{user_id:subUserId},
+      attributes:['user_id'],
+      include :[{
+        model:subjectDetails,
+        attributes:['sub_name']
+      }]
+    })
+    res.json({ data: users,subDetails})
   } catch (error) {
     console.log(error)
   }
