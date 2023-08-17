@@ -53,7 +53,7 @@ exports.deptstafflist = async(req,res,next) => {
         attributes:['sub_name']
       }]
     })
-    res.json({ data: users,subDetails})
+    res.json({ data:{ users,subDetails}})
   } catch (error) {
     console.log(error)
   }
