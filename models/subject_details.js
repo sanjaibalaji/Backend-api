@@ -22,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     sub_name: DataTypes.STRING,
     clg_code:DataTypes.STRING,
-    sub_code:DataTypes.INTEGER
+    sub_code:DataTypes.INTEGER,
+    color_name:DataTypes.STRING,
+    color_code:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'subject_details',
