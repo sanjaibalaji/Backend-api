@@ -61,7 +61,7 @@ try{
     attributes:['id','dayorder','period_no'],
     include:[{
       model:subjectDetails,
-      attributes:['sub_name'],
+      attributes:['sub_name','color_code','color_name'],
       
     }],
     
