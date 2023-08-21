@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   dayorder_allotment.init({
-    date: DataTypes.DATE,
+    new_date: DataTypes.DATE,
     day: DataTypes.STRING,
     dayorder: DataTypes.INTEGER,
     dept_code: DataTypes.INTEGER,
