@@ -50,28 +50,54 @@ exports.timetable = async (req, res, next) => {
 
 }
 
-exports.getTimetableList = async (req,res,next) => {
-  const {dept_id,class_code,batch_id} =req.query;
-  console.log(dept_id,class_code,batch_id)
-try{
-  const users = await Timetable.findAll({
+// exports.getTimetableList = async (req,res,next) => {
+//   const {dept_id,class_code,batch_id} =req.query;
+//   console.log(dept_id,class_code,batch_id)
+// try{
+//   const users = await Timetable.findAll({
+//     where:[{dept_id:dept_id},{class_code:class_code},{batch_id:batch_id}],
+//     attributes:['id','dayorder','period_no'],
+//     include:[{
+//       model:subjectDetails,
+//       attributes:['sub_name','color_code','color_name'],
+//     }],
     
-    where:[{dept_id:dept_id},{class_code:class_code},{batch_id:batch_id}],
+//   },
   
-    attributes:['id','dayorder','period_no'],
-    include:[{
-      model:subjectDetails,
-      attributes:['sub_name','color_code','color_name'],
-      
-    }],
-    
-  },
-  
-  );
-  res.json({data:users})
-}catch(error){
-console.log(error)
-}
+//   );
+//   res.json({data:users})
+// }catch(error){
+// console.log(error)
+// }
  
   
-}
+// }
+
+exports.getTimetableList = async (req, res, next) => {
+  const { dept_id, class_code, batch_id } = req.query;
+  console.log(dept_id, class_code, batch_id);
+  try {
+    const timetableData = await Timetable.findAll({
+      where: { dept_id: dept_id, class_code: class_code, batch_id: batch_id },
+      attributes: ['id', 'dayorder', 'period_no'],
+      include: [{
+        model: subjectDetails,
+        attributes: ['sub_name', 'color_code', 'color_name'],
+      }],
+    });
+
+    const groupedData = timetableData.reduce((result, entry) => {
+      const dayorder = `dayorder_${entry.dayorder}`;
+      console.log(entry.dayorder)
+      if (!result[dayorder]) {
+        result[dayorder] = [];
+      }
+      result[dayorder].push(entry);
+      return result;
+    }, {});
+
+    res.json({ data: groupedData });
+  } catch (error) {
+    console.log(error);
+  }
+};
