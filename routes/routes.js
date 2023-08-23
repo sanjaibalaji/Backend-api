@@ -9,6 +9,7 @@ const auth6 = require('../controlllers/staffSubDetails-controller')
 const auth7 = require('../controlllers/timetable-controller')
 const auth8 = require('../controlllers/dept_staff_details-controller')
 const auth9 = require('../controlllers/dayorderallotment-controller')
+const auth10 = require('../controlllers/staffTimetable-controller')
 
 
 const db = require('../models')
@@ -42,6 +43,8 @@ route.get('/deptstafflist',auth8.deptstafflist)
 route.get('/staffsubjectlist',auth6.staffsubjectlist)
 route.get('/google',auth.gsign)
 route.get('/dayorder',auth9.dayorder)
+route.get('/stafftimetable',auth10.stafftimetable)
+route.get('/allstafftimetable',auth10.allstafftimetable)
 
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));

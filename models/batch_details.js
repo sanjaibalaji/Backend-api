@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   batch_details.init({
+    class_code:DataTypes.INTEGER,
     batch: DataTypes.STRING,
     year: DataTypes.STRING,
     sessions:DataTypes.STRING,
@@ -25,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
   batch_details.associate = function(models) {
     models.batch_details.belongsTo(models.department, { foreignKey: 'id' });
     models.batch_details.hasMany(models.classes, { foreignKey: 'id' });
+    models.batch_details.hasMany(models.timetable, { foreignKey: 'batch_id'});
+   
+   
   }
 
   return batch_details;

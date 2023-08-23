@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-
+    class_code:DataTypes.INTEGER,
     dept_code: DataTypes.STRING,
     section: DataTypes.STRING,
     strength: DataTypes.INTEGER,
@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
   classes.associate = function(models) {
     models.classes.hasMany(models.timetable, { foreignKey: 'class_code' });
     models.classes.belongsTo(models.batch_details, { foreignKey: 'batch_id' });
+    models.classes.belongsTo(models.timetable, { foreignKey: 'class_code'});
+    
   };
   return classes;
 };

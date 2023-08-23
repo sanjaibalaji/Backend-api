@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     sub_code: DataTypes.INTEGER,
-    user_id: DataTypes.STRING,
+    user_id: DataTypes.INTEGER,
     dept_id: DataTypes.INTEGER,
     class_code: DataTypes.STRING,
     batch_id: DataTypes.STRING,
@@ -34,6 +34,14 @@ module.exports = (sequelize, DataTypes) => {
   });;
   timetable.associate = function(models) {
     models.timetable.belongsTo(models.subject_details, { foreignKey: 'sub_code' });
+    models.timetable.belongsTo(models.department, { foreignKey: 'dept_id'});
+    // models.department.hasMany(models.timetable, { foreignKey: 'dept_id' });
+    models.timetable.belongsTo(models.batch_details, { foreignKey: 'batch_id', as: 'batch_details'});
+    models.timetable.hasMany(models.classes, { foreignKey: 'class_code' , as: 'classes'});
+    models.timetable.hasMany(models.register, { foreignKey: 'user_id' });
+    
+
+
   }
   return timetable;
 
