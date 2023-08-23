@@ -10,6 +10,7 @@ const auth7 = require('../controlllers/timetable-controller')
 const auth8 = require('../controlllers/dept_staff_details-controller')
 const auth9 = require('../controlllers/dayorderallotment-controller')
 
+
 const db = require('../models')
 const Register = db.register
 const { jwtStrategy } = require('../middlewares/strategy');
@@ -41,6 +42,7 @@ route.get('/deptstafflist',auth8.deptstafflist)
 route.get('/staffsubjectlist',auth6.staffsubjectlist)
 route.get('/google',auth.gsign)
 route.get('/dayorder',auth9.dayorder)
+
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
