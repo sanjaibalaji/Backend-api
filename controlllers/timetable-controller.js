@@ -62,7 +62,7 @@ period_no:req.body.period_no}})
   
 
     if (result[0]>0) {
-      return res.status(200).json({message:"Subject updates", data: result });
+      return res.status(200).json({message:"Subject updated"});
     }
     else {
       return res.status(400).json({ error: "error" });
