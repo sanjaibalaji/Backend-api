@@ -31,9 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'classes',
   });
   classes.associate = function(models) {
-    models.classes.hasMany(models.timetable, { foreignKey: 'class_code' });
-    models.classes.belongsTo(models.batch_details, { foreignKey: 'batch_id' });
-    models.classes.belongsTo(models.timetable, { foreignKey: 'class_code'});
+    models.classes.hasMany(models.timetable, { foreignKey: 'id' });
+    models.classes.belongsTo(models.batch_details, { foreignKey: 'id' });
+    models.classes.hasMany(models.timetable, { foreignKey: 'class_code'});
     
   };
   return classes;

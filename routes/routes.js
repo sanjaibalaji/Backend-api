@@ -10,6 +10,7 @@ const auth7 = require('../controlllers/timetable-controller')
 const auth8 = require('../controlllers/dept_staff_details-controller')
 const auth9 = require('../controlllers/dayorderallotment-controller')
 const auth10 = require('../controlllers/staffTimetable-controller')
+const auth11 = require('../controlllers/batch_details-controller')
 
 
 const db = require('../models')
@@ -45,6 +46,8 @@ route.get('/google',auth.gsign)
 route.get('/dayorder',auth9.dayorder)
 route.get('/stafftimetable',auth10.stafftimetable)
 route.get('/allstafftimetable',auth10.allstafftimetable)
+route.post('/batchdetails',auth11.createbatch)
+route.put('/updatetimetable',auth7.updatetimetable)
 
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));

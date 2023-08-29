@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
     models.timetable.belongsTo(models.subject_details, { foreignKey: 'sub_code' });
     models.timetable.belongsTo(models.department, { foreignKey: 'dept_id'});
     // models.department.hasMany(models.timetable, { foreignKey: 'dept_id' });
-    models.timetable.belongsTo(models.batch_details, { foreignKey: 'batch_id', as: 'batch_details'});
-    models.timetable.hasMany(models.classes, { foreignKey: 'class_code' , as: 'classes'});
-    models.timetable.hasMany(models.register, { foreignKey: 'user_id' });
+    models.timetable.belongsTo(models.batch_details, { foreignKey: 'batch_id'});
+    models.timetable.belongsTo(models.classes, { foreignKey: 'class_code' });
+    models.timetable.belongsTo(models.register, { foreignKey: 'user_id' });
     
 
 

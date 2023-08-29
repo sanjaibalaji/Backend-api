@@ -6,21 +6,21 @@ const subjectDetails=db.subject_details
 
 
 exports.timetable = async (req, res, next) => {
-    const {dept_id,sub_id,class_id,user_id,batch,dayorder,period_no} = req.body;
+    const {dept_id,sub_code,class_code,user_id,batch_id,dayorder,period_no} = req.body;
     if (!dept_id) {
         return res.status(400).json({ error: 'Enter the dept id' });
       }
-      if(!sub_id) {
-        return res.status(400).json({ error: 'Enter the sub id' });
+      if(!sub_code) {
+        return res.status(400).json({ error: 'Enter the sub code' });
       }
-      if(!class_id) {
-        return res.status(400).json({ error: 'Enter the class id' });
+      if(!class_code) {
+        return res.status(400).json({ error: 'Enter the class code' });
       }
       if(!user_id) {
         return res.status(400).json({ error: 'Enter the staff id' });
       }
-      if(!batch) {
-        return res.status(400).json({ error: 'Enter the batch' });
+      if(!batch_id) {
+        return res.status(400).json({ error: 'Enter the batch id' });
       }
       if(!dayorder) {
         return res.status(400).json({ error: 'Enter the dayorder' });
@@ -30,9 +30,9 @@ exports.timetable = async (req, res, next) => {
       }
       const timetable = {
         dept_id: req.body.dept_id,
-        sub_id:req.body.sub_id,
-        class_id: req.body.class_id,
-        batch:req.body.batch,
+        sub_code:req.body.sub_code,
+        class_code: req.body.class_code,
+        batch_id:req.body.batch_id,
         user_id:req.body.user_id,
         dayorder: req.body.dayorder,
         period_no:req.body.period_no
@@ -50,28 +50,27 @@ exports.timetable = async (req, res, next) => {
 
 }
 
-// exports.getTimetableList = async (req,res,next) => {
-//   const {dept_id,class_code,batch_id} =req.query;
-//   console.log(dept_id,class_code,batch_id)
-// try{
-//   const users = await Timetable.findAll({
-//     where:[{dept_id:dept_id},{class_code:class_code},{batch_id:batch_id}],
-//     attributes:['id','dayorder','period_no'],
-//     include:[{
-//       model:subjectDetails,
-//       attributes:['sub_name','color_code','color_name'],
-//     }],
-    
-//   },
+exports.updatetimetable = async (req, res, next) => {
+  const {dept_id,class_code,user_id,batch_id,dayorder,period_no,sub_code} = req.body;
+  const result = await Timetable.update({sub_code:req.body.sub_code},
+    {where:{dept_id:req.body.dept_id,
+     class_code:req.body.class_code,
+    user_id:req.body.user_id,
+  batch_id:req.body.batch_id,
+dayorder:req.body.dayorder,
+period_no:req.body.period_no}})
   
-//   );
-//   res.json({data:users})
-// }catch(error){
-// console.log(error)
-// }
- 
-  
-// }
+
+    if (result[0]>0) {
+      return res.status(200).json({message:"Subject updates", data: result });
+    }
+    else {
+      return res.status(400).json({ error: "error" });
+    }
+
+  }
+
+
 
 exports.getTimetableList = async (req, res, next) => {
   const { dept_id, class_code, batch_id } = req.query;

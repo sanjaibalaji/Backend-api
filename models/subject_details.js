@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   subject_details.associate = function(models) {
     models.subject_details.hasMany(models.timetable, { foreignKey: 'sub_code' });
     models.subject_details.hasMany(models.staff_sub_details, { foreignKey: 'sub_code' });
-    models.subject_details.belongsTo(models.timetable, { foreignKey: 'sub_code' });
+    // models.subject_details.belongsTo(models.timetable, { foreignKey: 'sub_code' });
 
   }
 

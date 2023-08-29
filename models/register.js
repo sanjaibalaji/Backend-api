@@ -59,8 +59,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   register.associate = function(models) {
-    models.register.hasMany(models.dept_staff_details, { foreignKey: 'dept_id' });
-    models.register.belongsTo(models.timetable, { foreignKey: 'user_id' });
+    models.register.hasMany(models.dept_staff_details, { foreignKey: 'dept_code' });
+    models.register.hasMany(models.timetable, { foreignKey: 'user_id' });
   }
   return register;
 };

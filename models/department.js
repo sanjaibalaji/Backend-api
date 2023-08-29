@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     dept_name: DataTypes.STRING,
     no_of_sections: DataTypes.INTEGER,
     user_id: DataTypes.STRING,
-    batch_id:DataTypes.INTEGER
+    batch_id:DataTypes.INTEGER,
+    dept_code:DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'department',
@@ -31,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
   department.associate = function(models) {
     models.department.hasMany(models.batch_details, { foreignKey: 'dept_code' });
-    models.department.hasMany(models.timetable, { foreignKey: 'dept_id' });
+    models.department.hasMany(models.timetable, { foreignKey: 'id' });
     // models.department.belongsTo(models.timetable, { foreignKey: 'dept_id'});
 
   };

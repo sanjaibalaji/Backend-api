@@ -1,4 +1,5 @@
 const db = require("../models");
+const timetable = require("../models/timetable");
 const Timetable=db.timetable
 const Department=db.department
 const Batch=db.batch_details
@@ -6,36 +7,77 @@ const Classes = db.classes;
 const Subject = db.subject_details
 const Register = db.register
 
-exports.stafftimetable = async(req,res,next) => {
-    const {user_id} = req.query;
-    const result = await Timetable.findAll({where:{user_id:user_id}})
-    if (result) {
-  const stafftimetable = await Timetable.findAll({
-            where: { user_id: user_id},
-            include: [
+
+exports.stafftimetable = async (req, res, next) => {
+  const { user_id } = req.query;
+
+  try {
+      
+      const stafftimetable = await Timetable.findAll({
+          attributes: ['user_id', 'id', 'dayorder', 'period_no'],
+          where: { user_id: user_id },
+          include: [
               {
-                model: Department,
-                attributes: ['dept_name'],
+                  model: Department,
+                  attributes: ['dept_name','dept_code'],
               },
               {
-                model: Batch,
-                attributes: ['batch'],
+                  model: Batch,
+                  attributes: ['batch', 'year'],
               },
               {
-                model: Classes,
-                attributes: ['section'],
+                  model: Classes,
+                  attributes: ['section'],
               },
               {
-                model: Subject,
-                attributes: ['sub_name'],
+                  model: Subject,
+                  attributes: [ 'sub_code','sub_name', 'color_code', 'color_name']
+                  
               },
-            ],
-          });
-              return res.status(200).json({data:stafftimetable}) 
-            } else {
-                return res.status(400).json({message:"error"})
-            }
-}
+          ],
+      });
+      console.log(stafftimetable)
+      
+      const organizedData = {
+        user_id: user_id,
+        department: stafftimetable.length > 0 ? stafftimetable[0].department.dept_name : null,
+        details: {},
+      };
+    
+      
+  
+      const uniqueSubjectDetails = Array.from(
+        new Set(stafftimetable.map(record => JSON.stringify(record.subject_detail)))
+      ).map(item => JSON.parse(item));
+
+      stafftimetable.forEach(record => {
+        const dayorderKey = `dayorder:${record.dayorder}`; 
+        if (!organizedData.details[dayorderKey]) {
+          organizedData.details[dayorderKey] = [];
+        }
+      
+        organizedData.details[dayorderKey].push({
+          // user_id: user_id,
+          // department: stafftimetable.length > 0 ? stafftimetable[0].department.dept_name : null,
+         
+              id: record.id,
+              dayorder: record.dayorder,
+              period_no: record.period_no,
+              department: record.department.dept_name,
+        batch: stafftimetable.length > 0 ? stafftimetable[0].batch_detail.batch : null,
+        year: stafftimetable.length > 0 ? stafftimetable[0].batch_detail.year : null,
+        subjectDetails: uniqueSubjectDetails.length > 0 ? { ...uniqueSubjectDetails[0] } : {},
+              
+              
+          }
+          )})
+          
+      return res.status(200).json({ data: organizedData });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 
 exports.allstafftimetable = async(req,res,next) => {
@@ -45,33 +87,41 @@ exports.allstafftimetable = async(req,res,next) => {
 const stafftimetable = await Timetable.findAll({
           where: { dept_id:dept_id,batch_id:batch_id,class_code:class_code},
           include: [
+
             {
               model: Department,
               attributes: ['dept_name'],
-              as: 'department', // Use the alias defined in the model
+              required : true
+              // as: 'department', // Use the alias defined in the model
             },
             {
               model: Batch,
               attributes: ['batch'],
-              as: 'batch_details', // Use the alias defined in the model
+              required : true
+              // as: 'batch_details', // Use the alias defined in the model
             },
             {
               model: Classes,
               attributes: ['section'],
-              as: 'classes', // Use the alias defined in the model
+              require : true
+              // as: 'classes', // Use the alias defined in the model
             },
             {
               model: Subject,
               attributes: ['sub_name'],
-              as: 'subject_detail', // Use the alias defined in the model
+              required : true
+              // as: 'subject_detail', // Use the alias defined in the model
             },
             {
              model: Register,
-             attributes: ['firstName']
+             attributes: ['firstName'],
+             required : true
             },
           ],
+          // required : false
         });
-            return res.status(200).json({data:stafftimetable}) 
+        const filteredData = stafftimetable.filter(entry => entry.department!== null);
+            return res.status(200).json({data:filteredData}) 
           } else {
               return res.status(400).json({message:"error"})
           }
