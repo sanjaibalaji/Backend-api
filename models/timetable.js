@@ -26,8 +26,10 @@ module.exports = (sequelize, DataTypes) => {
     dept_id: DataTypes.INTEGER,
     class_code: DataTypes.STRING,
     batch_id: DataTypes.STRING,
-    dayorder: DataTypes.STRING,
-    period_no: DataTypes.STRING
+    dayorder: DataTypes.INTEGER,
+    period_no: DataTypes.STRING,
+    start_time:DataTypes.TIME,
+    end_time:DataTypes.TIME
   }, {
     sequelize,
     modelName: 'timetable',

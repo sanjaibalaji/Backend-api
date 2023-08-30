@@ -43,10 +43,11 @@ route.get('/classlist',auth3.classlist)
 route.get('/deptstafflist',auth8.deptstafflist)
 route.get('/staffsubjectlist',auth6.staffsubjectlist)
 route.get('/google',auth.gsign)
-route.get('/dayorder',auth9.dayorder)
+route.get('/mytimetable',auth9.staffmytimetable)
 route.get('/stafftimetable',auth10.stafftimetable)
 route.get('/allstafftimetable',auth10.allstafftimetable)
 route.post('/updatetimetable',auth7.updatetimetable)
+route.post('/studenttimetable',auth9.studenttimetable)
 
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
