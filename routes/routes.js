@@ -50,6 +50,7 @@ route.post('/updatetimetable',auth7.updatetimetable)
 route.post('/studenttimetable',auth9.studenttimetable)
 
 
+
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 

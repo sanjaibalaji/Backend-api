@@ -66,11 +66,15 @@ exports.stafftimetable = async (req, res, next) => {
               department: record.department.dept_name,
         batch: stafftimetable.length > 0 ? stafftimetable[0].batch_detail.batch : null,
         year: stafftimetable.length > 0 ? stafftimetable[0].batch_detail.year : null,
-        subjectDetails: uniqueSubjectDetails.length > 0 ? { ...uniqueSubjectDetails[0] } : {},
-              
-              
-          }
-          )})
+        subjectDetails: {
+         
+            sub_code: record.subject_detail ? record.subject_detail.sub_code : "null",
+            sub_name: record.subject_detail ? record.subject_detail.sub_name : "null",
+            color_code: record.subject_detail ? record.subject_detail.color_code : "null",
+            color_name: record.subject_detail ? record.subject_detail.color_name : "null",
+        },
+          })
+        })
           
       return res.status(200).json({ data: organizedData });
   } catch (error) {
