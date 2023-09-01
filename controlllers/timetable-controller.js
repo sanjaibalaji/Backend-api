@@ -55,7 +55,6 @@ exports.updatetimetable = async (req, res, next) => {
   const result = await Timetable.update({sub_code:req.body.sub_code},
     {where:{dept_id:req.body.dept_id,
      class_code:req.body.class_code,
-    user_id:req.body.user_id,
   batch_id:req.body.batch_id,
 dayorder:req.body.dayorder,
 period_no:req.body.period_no}})

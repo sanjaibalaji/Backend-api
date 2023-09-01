@@ -158,6 +158,7 @@ exports.datestudenttimetable = async (req, res, next) => {
         batch_id: batch_id,
         class_id: class_id
       }
+      // ,attributes:['day']
       
     });
     console.log("data",matchingdata)
@@ -186,7 +187,9 @@ exports.datestudenttimetable = async (req, res, next) => {
           start_time: formattedStartTime,
           end_time: formattedEndTime,
           sub_name: subject_detail ? subject_detail.sub_name : null,
-          period_no: element.period_no
+          period_no: element.period_no,
+          // today_date: today_date.toISOString(),
+          day: element.day,
         });
 
        
@@ -195,10 +198,15 @@ exports.datestudenttimetable = async (req, res, next) => {
       }
     }
     
-   
+    const responseData = {
+      today_date: today_date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+
+      day: matchingdata.day, // You might need to get the actual day from the Dayorder model
+      data: subjects,
+    };
 // // If a matching dayorder is found, return true
 if (subjects) {
-  return res.json({ data: subjects });
+  return res.json({ data: responseData });
 } else {
   return res.json({ success: false });
 }

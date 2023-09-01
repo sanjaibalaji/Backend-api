@@ -56,7 +56,7 @@ exports.departmentbatchlist = async (req, res, next) => {
       include: [{
         require:false,
         model: BatchDetails,
-        attributes: ['batch','year','sessions',],
+        attributes: ['id','batch','year','sessions',],
       }],
 
     }
