@@ -206,7 +206,7 @@ exports.datestudenttimetable = async (req, res, next) => {
     };
 // // If a matching dayorder is found, return true
 if (subjects) {
-  return res.json({ data: responseData });
+  return res.json(  responseData );
 } else {
   return res.json({ success: false });
 }
