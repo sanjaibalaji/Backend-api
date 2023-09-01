@@ -48,6 +48,7 @@ route.get('/stafftimetable',auth10.stafftimetable)
 route.get('/allstafftimetable',auth10.allstafftimetable)
 route.post('/updatetimetable',auth7.updatetimetable)
 route.post('/studenttimetable',auth9.studenttimetable)
+route.post('/datestudenttimetable',auth9.datestudenttimetable)
 
 
 
