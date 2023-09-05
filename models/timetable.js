@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     sub_code: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     dept_id: DataTypes.INTEGER,
-    class_code: DataTypes.STRING,
-    batch_id: DataTypes.STRING,
+    class_code: DataTypes.INTEGER,
+    batch_id: DataTypes.INTEGER,
     dayorder: DataTypes.INTEGER,
-    period_no: DataTypes.STRING,
+    period_no: DataTypes.INTEGER,
     start_time:DataTypes.TIME,
     end_time:DataTypes.TIME
   }, {

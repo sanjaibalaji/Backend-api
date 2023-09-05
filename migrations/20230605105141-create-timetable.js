@@ -10,25 +10,25 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       sub_id: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       dept_id: {
         type: Sequelize.INTEGER
       },
       class_id: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       batch: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       dayorder: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       period_no: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
