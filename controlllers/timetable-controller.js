@@ -50,24 +50,55 @@ exports.timetable = async (req, res, next) => {
 
 }
 
+
 exports.updatetimetable = async (req, res, next) => {
-  const {dept_id,class_code,user_id,batch_id,dayorder,period_no,sub_code} = req.body;
-  const result = await Timetable.update({sub_code:req.body.sub_code},
-    {where:{dept_id:req.body.dept_id,
-     class_code:req.body.class_code,
-  batch_id:req.body.batch_id,
-dayorder:req.body.dayorder,
-period_no:req.body.period_no}})
-  
+  try {
+    const updates = req.body; 
 
-    if (result[0]>0) {
-      return res.status(200).json({message:"Subject updated"});
-    }
-    else {
-      return res.status(400).json({ error: "error" });
+    if (!Array.isArray(updates) || updates.length === 0) {
+      return res.status(400).json({ error: "Invalid or empty request body" });
     }
 
+    const promises = updates.map(async (update) => {
+      const { dept_id, class_code, batch_id, dayorder, period_no, sub_code } = update;
+      const [count] = await Timetable.update(
+        {
+          sub_code: sub_code,
+          dept_id: dept_id,
+          class_code: class_code,
+          batch_id: batch_id,
+          dayorder: dayorder,
+          period_no: period_no,
+        },
+        {
+          where: {
+            dept_id: dept_id,
+            class_code: class_code,
+            batch_id: batch_id,
+            dayorder: dayorder,
+            period_no: period_no,
+          },
+        }
+      );
+      return count;
+    });
+
+    const results = await Promise.all(promises);
+    const totalUpdated = results.reduce((acc, count) => acc + count, 0);
+
+    if (totalUpdated > 0) {
+      return res.status(200).json({ message: `${totalUpdated} subjects updated` });
+    } else {
+      return res.status(400).json({ error: "No subjects updated" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+
+
 
 
 
