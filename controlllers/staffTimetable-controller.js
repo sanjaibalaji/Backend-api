@@ -10,9 +10,7 @@ const Register = db.register
 
 exports.stafftimetable = async (req, res, next) => {
   const { user_id } = req.query;
-
   try {
-      
       const stafftimetable = await Timetable.findAll({
           attributes: ['user_id', 'id', 'dayorder', 'period_no'],
           where: { user_id: user_id },
@@ -37,29 +35,20 @@ exports.stafftimetable = async (req, res, next) => {
           ],
       });
       console.log(stafftimetable)
-      
       const organizedData = {
         user_id: user_id,
         department: stafftimetable.length > 0 ? stafftimetable[0].department.dept_name : null,
         details: {},
       };
-    
-      
-  
       const uniqueSubjectDetails = Array.from(
         new Set(stafftimetable.map(record => JSON.stringify(record.subject_detail)))
       ).map(item => JSON.parse(item));
-
       stafftimetable.forEach(record => {
         const dayorderKey = `dayorder:${record.dayorder}`; 
         if (!organizedData.details[dayorderKey]) {
           organizedData.details[dayorderKey] = [];
         }
-      
         organizedData.details[dayorderKey].push({
-          // user_id: user_id,
-          // department: stafftimetable.length > 0 ? stafftimetable[0].department.dept_name : null,
-         
               id: record.id,
               dayorder: record.dayorder,
               period_no: record.period_no,
@@ -67,7 +56,6 @@ exports.stafftimetable = async (req, res, next) => {
         batch: stafftimetable.length > 0 ? stafftimetable[0].batch_detail.batch : null,
         year: stafftimetable.length > 0 ? stafftimetable[0].batch_detail.year : null,
         subjectDetails: {
-         
             sub_code: record.subject_detail ? record.subject_detail.sub_code : "null",
             sub_name: record.subject_detail ? record.subject_detail.sub_name : "null",
             color_code: record.subject_detail ? record.subject_detail.color_code : "null",
@@ -75,15 +63,12 @@ exports.stafftimetable = async (req, res, next) => {
         },
           })
         })
-          
       return res.status(200).json({ data: organizedData });
   } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
 exports.allstafftimetable = async(req,res,next) => {
   const {dept_id,batch_id,class_code} = req.query;
   const result = await Timetable.findAll({where:{dept_id:dept_id,batch_id:batch_id,class_code:class_code}})
@@ -91,30 +76,25 @@ exports.allstafftimetable = async(req,res,next) => {
 const stafftimetable = await Timetable.findAll({
           where: { dept_id:dept_id,batch_id:batch_id,class_code:class_code},
           include: [
-
             {
               model: Department,
               attributes: ['dept_name'],
               required : true
-              // as: 'department', // Use the alias defined in the model
             },
             {
               model: Batch,
               attributes: ['batch'],
               required : true
-              // as: 'batch_details', // Use the alias defined in the model
             },
             {
               model: Classes,
               attributes: ['section'],
               require : true
-              // as: 'classes', // Use the alias defined in the model
             },
             {
               model: Subject,
               attributes: ['sub_name'],
               required : true
-              // as: 'subject_detail', // Use the alias defined in the model
             },
             {
              model: Register,
@@ -122,7 +102,6 @@ const stafftimetable = await Timetable.findAll({
              required : true
             },
           ],
-          // required : false
         });
         const filteredData = stafftimetable.filter(entry => entry.department!== null);
             return res.status(200).json({data:filteredData}) 

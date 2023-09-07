@@ -35,10 +35,8 @@ exports.timetable = async (req, res, next) => {
         batch_id:req.body.batch_id,
         user_id:req.body.user_id,
         dayorder: req.body.dayorder,
-        period_no:req.body.period_no
-        
+        period_no:req.body.period_no        
       }
-
       const result = await Timetable.create(timetable)
       if (result) {
         return res.status(200).json({ data: result });
@@ -46,19 +44,13 @@ exports.timetable = async (req, res, next) => {
       else {
         return res.status(400).json({ error: "error" });
       }
-
-
 }
-
-
 exports.updatetimetable = async (req, res, next) => {
   try {
     const updates = req.body; 
-
     if (!Array.isArray(updates) || updates.length === 0) {
       return res.status(400).json({ error: "Invalid or empty request body" });
     }
-
     const promises = updates.map(async (update) => {
       const { dept_id, class_code, batch_id, dayorder, period_no, sub_code } = update;
       const [count] = await Timetable.update(
@@ -82,10 +74,8 @@ exports.updatetimetable = async (req, res, next) => {
       );
       return count;
     });
-
     const results = await Promise.all(promises);
     const totalUpdated = results.reduce((acc, count) => acc + count, 0);
-
     if (totalUpdated > 0) {
       return res.status(200).json({ message: `${totalUpdated} subjects updated` });
     } else {
@@ -96,11 +86,6 @@ exports.updatetimetable = async (req, res, next) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
-
-
-
 
 exports.getTimetableList = async (req, res, next) => {
   const { dept_id, class_code, batch_id } = req.query;
@@ -113,7 +98,6 @@ exports.getTimetableList = async (req, res, next) => {
         attributes: ['sub_code','sub_name', 'color_code', 'color_name'],
       }],
     });
-
     const groupedData = timetableData.reduce((result, entry) => {
       const dayorder = `dayorder_${entry.dayorder}`;
       console.log(entry.dayorder)
@@ -123,7 +107,6 @@ exports.getTimetableList = async (req, res, next) => {
       result[dayorder].push(entry);
       return result;
     }, {});
-
     res.json({ data: groupedData });
   } catch (error) {
     console.log(error);

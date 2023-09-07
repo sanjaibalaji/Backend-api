@@ -59,20 +59,16 @@ exports.register = async (req, res, next) => {
   } else {
     return res.status(400).json({ error: "Mail sent unsuccessfull" });
   }
-
-
-
 };
+
 exports.verifyEmail = async (req, res, next) => {
   const { verificationToken } = req.query;
   const user = await Register.findOne({ where: { verificationToken } });
   if (!user) {
     return res.status(400).json({ error: 'Email not found' });
-  }
-  
+  }  
   const result = await Register.update({ isVerified: true }, { where: { verificationToken } })
   console.log(result)
-  
   if ([result]) {
     if (!req.body.password) {
       return res.status(400).json({ error:'Password is  required'});
@@ -82,28 +78,23 @@ exports.verifyEmail = async (req, res, next) => {
     req.body.password = bcrypt.hashSync(req.body.password, salt);
     const result = await Register.update({ password: req.body.password }, { where: { verificationToken } }, { verificationToken: null })
     const verified = await Register.update({ verificationToken: null }, { where: { isVerified: true } })
-    
-
     if (result) {
       return res.status(200).json({ message: "User is  registered" });
     }
     else {
       return res.status(400).json({ error: "User is not registered" });
     }
-   
-
   } else {
     return res.status(400).json({ error: "User is not verified" });
   }
-
 }
+
 exports.gsign = async (req,res,next) => {
   const {email} =req.body;
   if(!email) {
     return res.status(400).json({ error: 'select the email' }); 
   }
   const user = await Register.findOne({ where: { email } });
-  // const verified = await Register.findOne({where:{isVerified:true}});
   if(isVerified=true) {
     return res.status(400).json({error:'email is not verified'})
   }
@@ -113,6 +104,7 @@ exports.gsign = async (req,res,next) => {
     return res.status(200).json(user)
   }
 }
+
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -130,7 +122,6 @@ exports.login = async (req, res, next) => {
   if (!isPasswordValid) {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
-
   else {
     let token = jwt.sign(
       {
@@ -145,15 +136,12 @@ exports.login = async (req, res, next) => {
       role: user.role_name,
       email: user.email,
       token: `${token}`,
-      expiresIn: 168,
-      
+      expiresIn: 168,   
     };
     res.status(200).json({ message: 'Logged in successfully',result });
   }
-
-
-
 }
+
 exports.forgotPassword = async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
@@ -163,9 +151,7 @@ exports.forgotPassword = async (req, res, next) => {
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }
-  const verificationToken = crypto.randomBytes(32).toString('hex')
-
-    ;
+  const verificationToken = crypto.randomBytes(32).toString('hex');
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -182,7 +168,6 @@ exports.forgotPassword = async (req, res, next) => {
   const mail = await transporter.sendMail(mailOptions);
   if (mail.accepted.length) {
     const register = await Register.update({ verificationToken }, { where: { email } })
-    // const result = await Register.update(register)
     if (register) {
       return res.status(200).json({ data: "Mail sent" });
     }
@@ -211,20 +196,12 @@ exports.resetPassword = async (req, res, next) => {
   if(result){
   var verified = await Register.update({verificationToken:null},{where:{email:user.email}})
   }
-
   if (verified) {
     return res.status(200).json({ message: "Password reset successfull" });
   }
   else {
     return res.status(400).json({ error: "User is not registered" });
   }
-
-
-
-
-
-
-
 }
 
 

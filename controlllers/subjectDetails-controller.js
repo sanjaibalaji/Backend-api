@@ -13,7 +13,6 @@ exports.subjects = async (req, res, next) => {
         sub_id: req.body.sub_id,
         sub_name:req.body.sub_name,
       }
-  
       const result = await SubjectDetails.create(subjects)
       if (result) {
         return res.status(200).json({ data: result });

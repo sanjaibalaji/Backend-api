@@ -9,7 +9,6 @@ const db = require("./models");
 const app = express();
 
 var passports = require ('./middlewares/passport')
- 
 
    app.use(cors({
    origin: '*'
@@ -21,13 +20,9 @@ app.use(session({
   saveUninitialized: false
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 app.use(bodyParser.urlencoded());
-
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,7 +31,7 @@ passport.use(
     {
       clientID:"870696435915-8nd83qijctf9mti285hhtpfdjkrp7u9j.apps.googleusercontent.com",
       clientSecret:"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",
-      callbackURL: 'https://odooformybusiness.com/auth/callback', // This is the URL where Google will redirect after authentication
+      callbackURL: 'https://odooformybusiness.com/auth/callback', 
     },
     (accessToken, refreshToken, profile, done) => {
       return done(null, profile);
@@ -51,11 +46,8 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
-
-
 app.use(route);
 app.use('/', route)
-
 db.sequelize.sync()
   .then(() => {
     console.log("Synced db.");
@@ -64,14 +56,10 @@ db.sequelize.sync()
     console.log(err)
     console.log("Failed to sync db: " + err.message);
   });
-
 app.get("/", (req, res) => {
   res.json({ message: `Server is running on port ${PORT}.` });
 });
-
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-

@@ -23,7 +23,6 @@ exports.classes = async (req, res, next) => {
         strength: req.body.strength,
         batch:req.body.batch
       }
-  
       const result = await Classes.create(classes)
       if (result) {
         return res.status(200).json({ data: result });
@@ -44,14 +43,10 @@ exports.classlist = async (req, res, next) => {
         model: Classes,
         attributes: ['section'],
       }],
-
     },
-
     );
     res.json({ data: users })
   } catch (error) {
     console.log(error)
   }
-
-
 }

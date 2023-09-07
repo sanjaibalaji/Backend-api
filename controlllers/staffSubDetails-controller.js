@@ -10,12 +10,10 @@ exports.staffsubdetails = async (req, res, next) => {
       if(!sub_id) {
         return res.status(400).json({ error: 'Enter the sub_id' });
       }
-     
       const staffsubdetails = {
         staff_id: req.body.staff_id,
         sub_id:req.body.sub_id
       }
-  
       const result = await Staffsubdetails.create(staffsubdetails)
       if (result) {
         return res.status(200).json({ data: result });
@@ -24,6 +22,7 @@ exports.staffsubdetails = async (req, res, next) => {
         return res.status(400).json({ error: "error" });
       }
 }
+
 exports.staffsubjectlist = async(req,res,next) => {
   const user_id = req.query.user_id;
   console.log(user_id)
@@ -35,13 +34,10 @@ exports.staffsubjectlist = async(req,res,next) => {
         model: subjectDetails,
         attributes: ['sub_code','sub_name','color_code','color_name'],
       }],
-
     },
-
     );
     res.json({ data: users })
   } catch (error) {
     console.log(error)
   }
-
 }
