@@ -58,7 +58,7 @@ exports.departmentbatchlist = async (req, res, next) => {
       }],
       }
     );
-    res.json({ data: users })
+    res.json({data: users})
   } catch (error) {
     console.log(error)
   }
