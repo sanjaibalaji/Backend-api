@@ -44,23 +44,73 @@ exports.departmentlist = async (req, res, next) => {
   }
 }
 
+// exports.departmentbatchlist = async (req, res, next) => {
+//   const dept_code = req.query.dept_code;
+//   console.log(dept_code)
+//   try {
+//     const users = await Department.findAll(
+//       {where:{dept_code},
+//       attributes: ['id'],
+//       include: [{
+//         require:false,
+//         model: BatchDetails,
+//         attributes: ['id','batch','year','sessions',],
+//       }],
+//       }
+//     );
+//     res.json({data: users})
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
 exports.departmentbatchlist = async (req, res, next) => {
   const dept_code = req.query.dept_code;
-  console.log(dept_code)
-  try {
-    const users = await Department.findAll(
-      {where:{dept_code},
-      attributes: ['id'],
-      include: [{
-        require:false,
-        model: BatchDetails,
-        attributes: ['id','batch','year','sessions',],
-      }],
-      }
-    );
-    res.json({data: users})
-  } catch (error) {
-    console.log(error)
-  }
-}
+  console.log(dept_code);
 
+  try {
+    const users = await Department.findAll({
+      where: { dept_code },
+      attributes: ['id'],
+      include: [
+        {
+          require: false,
+          model: BatchDetails,
+          attributes: ['id', 'batch', 'year', 'sessions'],
+        },
+      ],
+    });
+
+    // Extract the batch details
+    const batchDetails = users[0].batch_details;
+
+    // Create a map to store distinct batch values and associated years
+    const batchMap = new Map();
+
+    // Process the batch details and group them by batch values
+    batchDetails.forEach((batchDetail) => {
+      const { batch, year } = batchDetail;
+      if (!batchMap.has(batch)) {
+        batchMap.set(batch, []);
+      }
+      batchMap.get(batch).push(year);
+    });
+
+    // Create a new response object with grouped batch details
+    const response = {
+      data: [
+        {
+          id: users[0].id,
+          batch_details: Array.from(batchMap.entries()).map(([batch, years]) => ({
+            batch,
+            years,
+          })),
+        },
+      ],
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
