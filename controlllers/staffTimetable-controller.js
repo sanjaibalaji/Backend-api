@@ -254,7 +254,7 @@ exports.allstafftimetable = async (req, res, next) => {
         },
         {
           model: Batch,
-          attributes: ['batch'],
+          attributes: ['year'],
           required: true,
         },
         {
@@ -283,7 +283,7 @@ exports.allstafftimetable = async (req, res, next) => {
       if (!acc[key]) {
         acc[key] = {
           department: department.dept_name,
-          year: batch_detail.batch,
+          year: batch_detail.year,
           section: classDetail.section,
           [`dayorder_${entry.dayorder}`]: [],
         };
