@@ -3,49 +3,7 @@ const { subscribe } = require("../routes/routes");
 const Dayorder = db.dayorder_allotment;
 const Timetable = db.timetable
 const Subject = db.subject_details
-const Register = db.register
-const Department = db.department
-const Classes = db.classes
 
-
-exports.staffmytimetable = async (req, res, next) => {
-  try {
-    const currentDate = new Date();
-      console.log(currentDate.toISOString().split('T')[0])
-    const matchingDayorder = await Dayorder.findOne({
-      where: {
-        today_date: currentDate 
-      }
-    });
-        const dayorder = await Timetable.findAll({where:{dayorder:matchingDayorder.dayorder}})
-        var subjects = []
-        for (const element of dayorder) {
-          try {
-            const subject_detail = await Subject.findOne({ where: {id: element.sub_code },attributes:['sub_name','color_code']});
-            const user = await Register.findOne({ where: { user_id: element.user_id },attributes:['firstName','lastName']});
-            const department = await Department.findOne({ where: { id: element.dept_id },attributes:['dept_name']});
-            const classes = await Classes.findOne({ where: { id: element.class_code },attributes:['section']});
-            subjects.push({
-              user,
-              subject_detail,
-              department,
-              classes,
-              period_no: element.period_no // Add this line
-            });
-          } catch (error) {
-            console.error('Error fetching subject:', error);
-          }
-        }
-    if (subjects) {
-      return res.json({ success: subjects });
-    } else {
-      return res.json({ success: false });
-    }
-  } catch (error) {
-    console.error("Error fetching dayorder:", error);
-    return res.status(500).json({ error: "An error occurred" });
-  }
-};
 
 exports.studenttimetable = async (req, res, next) => {
     try {
