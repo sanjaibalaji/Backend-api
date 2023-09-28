@@ -20,14 +20,17 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    dept_code: DataTypes.STRING,
-    sub_code: DataTypes.STRING,
-    batch_id: DataTypes.STRING,
+    dept_code: DataTypes.INTEGER,
+    sub_code: DataTypes.INTEGER,
+    batch_id: DataTypes.INTEGER,
     year: DataTypes.STRING,
     Clg_code:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'dept_sub_details',
   });
+   dept_sub_details.associate = function(models) {
+    models.dept_sub_details.belongsTo(models.subject_details, { foreignKey: 'sub_code' });
+  }
   return dept_sub_details;
 };

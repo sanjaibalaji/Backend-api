@@ -1,5 +1,6 @@
 const db = require("../models");
-const Deptsubdetails = db.deptsubdetails;
+const Deptsubdetails = db.dept_sub_details;
+const subjectDetails = db.subject_details
 
 exports.deptsubdetails = async (req, res, next) => {
     const {dept_id,sub_id,year,batch} = req.body;
@@ -29,4 +30,23 @@ exports.deptsubdetails = async (req, res, next) => {
       else {
         return res.status(400).json({ error: "error" });
       }
+}
+
+exports.deptsubjectlist = async(req,res,next) => {
+  const dept_code = req.query.dept_code;
+  // console.log(user_id)
+  try {
+    const users = await Deptsubdetails.findAll(
+      {where:{dept_code},
+      attributes: ['id'],
+      include: [{
+        model: subjectDetails,
+        attributes: ['sub_code','sub_name',],
+      }],
+    },
+    );
+    res.json({ data: users })
+  } catch (error) {
+    console.log(error)
+  }
 }

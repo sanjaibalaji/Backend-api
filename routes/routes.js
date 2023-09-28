@@ -1,4 +1,6 @@
 const passport = require('passport');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const auth = require('../controlllers/register-controller')
 const auth1 = require('../controlllers/roles-controller')
 const auth2 = require('../controlllers/subjectDetails-controller')
@@ -10,7 +12,8 @@ const auth7 = require('../controlllers/timetable-controller')
 const auth8 = require('../controlllers/dept_staff_details-controller')
 const auth9 = require('../controlllers/dayorderallotment-controller')
 const auth10 = require('../controlllers/staffTimetable-controller')
-
+const auth11 = require('../controlllers/examDetails-controller')
+const auth12 = require('../controlllers/marksUpload-controller')
 
 
 const db = require('../models')
@@ -46,11 +49,13 @@ route.get('/google',auth.gsign)
 route.get('/mytimetable',auth10.staffmytimetable)
 route.get('/stafftimetable',auth10.stafftimetable)
 route.get('/allstafftimetable',auth10.allstafftimetable)
+route.get('/deptsublist',auth5.deptsubjectlist)
 route.post('/updatetimetable',auth7.updatetimetable)
 route.post('/studenttimetable',auth9.studenttimetable)
 route.post('/datestudenttimetable',auth9.datestudenttimetable)
-
-
+route.post('/createexam',auth11.examtypes)
+route.get('/getexamtypes',auth11.getexamtypes)
+route.post('/marksupload', upload.single('file'), auth12.marksupload);
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 

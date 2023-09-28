@@ -40,9 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     models.timetable.belongsTo(models.batch_details, { foreignKey: 'batch_id'});
     models.timetable.belongsTo(models.classes, { foreignKey: 'class_code' });
     models.timetable.belongsTo(models.register, { foreignKey: 'user_id' });
-    
-
-
+  
   }
   return timetable;
 

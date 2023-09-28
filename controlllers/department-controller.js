@@ -1,4 +1,5 @@
 const db = require("../models");
+const batch_details = require("../models/batch_details");
 const Department = db.department;
 const BatchDetails = db.batch_details;
 
@@ -115,6 +116,118 @@ exports.departmentlist = async (req, res, next) => {
 //   }
 // };
 
+// exports.departmentbatchlist = async (req, res, next) => {
+//   const dept_code = req.query.dept_code;
+//   console.log(dept_code);
+
+//   try {
+//     const users = await Department.findAll({
+//       where: { dept_code },
+//       attributes: ['id'],
+//       include: [
+//         {
+//           require: false,
+//           model: BatchDetails,
+//           attributes: ['id', 'batch', 'year'],
+//         },
+//       ],
+//     });
+
+//     // Extract the batch details
+//     const batchDetails = users[0].batch_details;
+
+//     // Create a map to store distinct batch values and associated years
+//     const batchMap = new Map();
+
+//     // Process the batch details and group them by batch values
+//     batchDetails.forEach((batchDetail) => {
+//       const { id, batch, year } = batchDetail;
+//       if (!batchMap.has(batch)) {
+//         batchMap.set(batch, []);
+//       }
+//       batchMap.get(batch).push({ id, year });
+//     });
+
+//     // Create a new response object with grouped batch details
+//     const response = {
+//       data: [
+//         {
+//           id: users[0].id,
+//           batch_details: Array.from(batchMap.entries()).map(([batch, years]) => ({
+//             batch,
+//             years,
+//           })),
+//         },
+//       ],
+//     };
+
+//     res.json(response);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+// exports.departmentbatchlist = async (req, res, next) => {
+//   const dept_code = req.query.dept_code;
+//   console.log(dept_code);
+
+//   try {
+//     const users = await Department.findAll({
+//       where: { dept_code },
+//       attributes: ['id'],
+//       include: [
+//         {
+//           require: false,
+//           model: BatchDetails,
+//           attributes: ['id', 'batch', 'year', 'sessions'],
+//         },
+//       ],
+//     });
+
+//     // Extract the batch details
+//     const batchDetails = users[0].batch_details;
+
+//     // Create a map to store distinct batch values and associated years with sessions
+//     const batchMap = new Map();
+
+//     // Process the batch details and group them by batch and year
+//     batchDetails.forEach((batchDetail) => {
+//       const { id, batch, year, sessions } = batchDetail;
+//       const sessionObj = { id, session: sessions };
+      
+//       if (!batchMap.has(batch)) {
+//         batchMap.set(batch, new Map());
+//       }
+
+//       if (!batchMap.get(batch).has(year)) {
+//         batchMap.get(batch).set(year, []);
+//       }
+      
+//       batchMap.get(batch).get(year).push(sessionObj);
+//     });
+
+//     // Create a new response object with grouped batch details
+//     const response = {
+//       data: [
+//         {
+//           id: users[0].id,
+//           batch_details: Array.from(batchMap.entries()).map(([batch, yearMap]) => ({
+//             batch,
+//             years: Array.from(yearMap.entries()).map(([year, sessions]) => ({
+//               id:year,
+//               year,
+//               sessions,
+//             })),
+//           })),
+//         },
+//       ],
+//     };
+
+//     res.json(response);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 exports.departmentbatchlist = async (req, res, next) => {
   const dept_code = req.query.dept_code;
   console.log(dept_code);
@@ -127,7 +240,7 @@ exports.departmentbatchlist = async (req, res, next) => {
         {
           require: false,
           model: BatchDetails,
-          attributes: ['id', 'batch', 'year'],
+          attributes: ['id', 'batch', 'year', 'sessions'], // Include 'year_id'
         },
       ],
     });
@@ -135,16 +248,28 @@ exports.departmentbatchlist = async (req, res, next) => {
     // Extract the batch details
     const batchDetails = users[0].batch_details;
 
-    // Create a map to store distinct batch values and associated years
+    // Create a map to store distinct batch values and associated years with sessions
     const batchMap = new Map();
 
-    // Process the batch details and group them by batch values
+    // Process the batch details and group them by batch and year
     batchDetails.forEach((batchDetail) => {
-      const { id, batch, year } = batchDetail;
+      const { id, batch, year, sessions,  } = batchDetail;
+      const sessionObj = { id, session: sessions };
+
       if (!batchMap.has(batch)) {
-        batchMap.set(batch, []);
+        batchMap.set(batch, new Map());
       }
-      batchMap.get(batch).push({ id, year });
+
+      if (!batchMap.get(batch).has(year)) {
+        batchMap.get(batch).set(year, {
+          id: id, // Use the 'year_id' field as the ID
+          year,
+          sessions: [sessionObj],
+        });
+      } else {
+        // Year already exists, add the session
+        batchMap.get(batch).get(year).sessions.push(sessionObj);
+      }
     });
 
     // Create a new response object with grouped batch details
@@ -152,9 +277,13 @@ exports.departmentbatchlist = async (req, res, next) => {
       data: [
         {
           id: users[0].id,
-          batch_details: Array.from(batchMap.entries()).map(([batch, years]) => ({
+          batch_details: Array.from(batchMap.entries()).map(([batch, yearMap]) => ({
             batch,
-            years,
+            years: Array.from(yearMap.entries()).map(([_, yearData]) => ({
+              id: yearData.id,
+              year: yearData.year,
+              sessions: yearData.sessions,
+            })),
           })),
         },
       ],
