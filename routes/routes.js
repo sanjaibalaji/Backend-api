@@ -14,6 +14,8 @@ const auth9 = require('../controlllers/dayorderallotment-controller')
 const auth10 = require('../controlllers/staffTimetable-controller')
 const auth11 = require('../controlllers/examDetails-controller')
 const auth12 = require('../controlllers/marksUpload-controller')
+const auth13 = require('../controlllers/eventUpload-controller')
+const  { fuleUpload }  = require('../middlewares/fileUpload');
 
 
 const db = require('../models')
@@ -56,6 +58,8 @@ route.post('/datestudenttimetable',auth9.datestudenttimetable)
 route.post('/createexam',auth11.examtypes)
 route.get('/getexamtypes',auth11.getexamtypes)
 route.post('/marksupload', upload.single('file'), auth12.marksupload);
+route.post('/eventupload', fuleUpload.single('file'),auth13.eventsupload );
+route.post('/getevent', fuleUpload.single('file'),auth13.geteventsupload );
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
