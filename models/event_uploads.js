@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     event_name: DataTypes.STRING,
     hosting_dept: DataTypes.STRING,
-    date: DataTypes.DATEONLY,
+    date: DataTypes.DATE,
     start_time:DataTypes.TIME,
     end_time: DataTypes.TIME,
     chief_Guest: DataTypes.STRING,

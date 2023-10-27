@@ -59,7 +59,8 @@ route.post('/createexam',auth11.examtypes)
 route.get('/getexamtypes',auth11.getexamtypes)
 route.post('/marksupload', upload.single('file'), auth12.marksupload);
 route.post('/eventupload', fuleUpload.single('file'),auth13.eventsupload );
-route.post('/getevent', fuleUpload.single('file'),auth13.geteventsupload );
+route.post('/upcomingevent', fuleUpload.single('file'),auth13.upcomingevent );
+route.post('/finishedevent', fuleUpload.single('file'),auth13.finishedevent );
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
