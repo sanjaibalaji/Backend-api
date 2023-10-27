@@ -27,7 +27,7 @@ const fuleUpload = multer({
         },
     },
     fileFilter: (req, file, cb) => {
-        const acceptableExtensions = ['.png', '.PNG', '.jpg', '.JPG', '.JPEG', '.gif', '.pdf', '.csv', '.xls', '.doc', '.xlsx', '.docx'];
+        const acceptableExtensions = ['.png', '.PNG', '.jpg', '.JPG','.jpeg', '.JPEG', '.gif', '.pdf', '.csv', '.xls', '.doc', '.xlsx', '.docx'];
         let ext = path.extname(file.originalname);
         if (!(acceptableExtensions.includes(ext))) {
             req.fileValidationError = "File type not allowed";
