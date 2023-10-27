@@ -15,6 +15,7 @@ const auth10 = require('../controlllers/staffTimetable-controller')
 const auth11 = require('../controlllers/examDetails-controller')
 const auth12 = require('../controlllers/marksUpload-controller')
 const auth13 = require('../controlllers/eventUpload-controller')
+const auth14 = require('../controlllers/dashboard-controller')
 const  { fuleUpload }  = require('../middlewares/fileUpload');
 
 
@@ -32,6 +33,7 @@ route.post("/role", auth1.role);
 route.get("/rolelist",auth1.rolelist)
 route.post('/create_password', auth.verifyEmail)
 route.post('/login',auth.login)
+route.post('/logout',auth.logout)
 route.post('/forgot_password',auth.forgotPassword)
 route.post('/reset_password',auth.resetPassword)
 route.post('/subjects',auth2.subjects)
@@ -61,6 +63,8 @@ route.post('/marksupload', upload.single('file'), auth12.marksupload);
 route.post('/eventupload', fuleUpload.single('file'),auth13.eventsupload );
 route.post('/upcomingevent', fuleUpload.single('file'),auth13.upcomingevent );
 route.post('/finishedevent', fuleUpload.single('file'),auth13.finishedevent );
+route.post('/createdashboard',auth14.createdashboard);
+route.post('/dashboard',auth14.getdashboard)
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
