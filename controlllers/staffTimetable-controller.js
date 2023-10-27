@@ -73,7 +73,7 @@ const Dayorder = db.dayorder_allotment;
 
 exports.staffmytimetable = async (req, res, next) => {
   try {
-    const user_id = req.body.user_id;
+    const user_id = req.query.user_id;
     const currentDate = new Date();
     console.log(currentDate.toISOString().split('T')[0]);
     const matchingDayorder = await Dayorder.findOne({

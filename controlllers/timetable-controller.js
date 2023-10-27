@@ -88,10 +88,10 @@ exports.updatetimetable = async (req, res, next) => {
 };
 
 exports.getTimetableList = async (req, res, next) => {
-  const { dept_id, class_code, batch_id } = req.query;
+  const { dept_id, class_code } = req.query;
   try {
     const timetableData = await Timetable.findAll({
-      where: { dept_id: dept_id, class_code: class_code, batch_id: batch_id },
+      where: { dept_id: dept_id, class_code: class_code },
       attributes: ['id', 'dayorder', 'period_no'],
       include: [{
         model: subjectDetails,
