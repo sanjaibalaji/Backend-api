@@ -264,7 +264,7 @@ exports.allstafftimetable = async (req, res, next) => {
         },
         {
           model: Subject,
-          attributes: ['sub_name'],
+          attributes: ['sub_name','color_code','color_name'],
           required: true,
         },
         {
@@ -298,6 +298,8 @@ exports.allstafftimetable = async (req, res, next) => {
         subject_detail: {
           sub_code: entry.sub_code,
           sub_name: subject_detail.sub_name,
+          color_name:subject_detail.color_name,
+          color_code:subject_detail.color_code
           // You can add color_code and color_name here if needed
         },
       });
