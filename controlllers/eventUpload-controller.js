@@ -50,7 +50,7 @@ exports.eventsupload = async (req, res) => {
             file.path = req.file.path;
             file.name = req.file.filename;
         }
-        const imageBuffer = await fs.promises.readFile(file.path);
+        const imageBuffer = await fs.promises.readFile(req.file.path);
 
         const dataRows = ({
             firstName,
