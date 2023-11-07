@@ -2,6 +2,8 @@ const db = require("../models");
 const batch_details = require("../models/batch_details");
 const Department = db.department;
 const BatchDetails = db.batch_details;
+const ExamDetails = db.exam_details;
+const SubjectDetails = db.subject_details;
 
 exports.department = async (req, res, next) => {
   const { dept_code, dept_name, no_of_sections, user_id } = req.body;
@@ -271,7 +273,17 @@ exports.departmentbatchlist = async (req, res, next) => {
         batchMap.get(batch).get(year).sessions.push(sessionObj);
       }
     });
+    const examTypes = await ExamDetails.findAll({
+      attributes: ['id', 'exam_type'],
+    });
+    const subjectDetails = await SubjectDetails.findAll({
+      attributes: ['id', 'sub_name'],
+    });
 
+    const examTypeMap = new Map();
+    examTypes.forEach((examType) => {
+      examTypeMap.set(examType.id, examType.exam_type);
+    });
     // Create a new response object with grouped batch details
     const response = {
       data: [
@@ -285,10 +297,12 @@ exports.departmentbatchlist = async (req, res, next) => {
               sessions: yearData.sessions,
             })),
           })),
+          examtypes: examTypes,
+          subjects:subjectDetails,
         },
       ],
     };
-
+    console.log('Exam Types:', examTypes);
     res.json(response);
   } catch (error) {
     console.log(error);
