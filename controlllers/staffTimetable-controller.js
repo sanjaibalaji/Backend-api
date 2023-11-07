@@ -240,6 +240,81 @@ exports.stafftimetable = async (req, res, next) => {
 //           }
 // }
 
+// exports.allstafftimetable = async (req, res, next) => {
+//   const { dept_id, batch_id, class_code } = req.query;
+//   const result = await Timetable.findAll({ where: { dept_id, batch_id, class_code } });
+//   if (result) {
+//     const stafftimetable = await Timetable.findAll({
+//       where: { dept_id, batch_id, class_code },
+//       include: [
+//         {
+//           model: Department,
+//           attributes: ['dept_name'],
+//           required: true,
+//         },
+//         {
+//           model: Batch,
+//           attributes: ['year'],
+//           required: true,
+//         },
+//         {
+//           model: Classes,
+//           attributes: ['section'],
+//           require: true,
+//         },
+//         {
+//           model: Subject,
+//           attributes: ['sub_name','color_code','color_name'],
+//           required: true,
+//         },
+//         {
+//           model: Register,
+//           attributes: ['firstName'],
+//           required: true,
+//         },
+//       ],
+//     });
+
+//     // Group timetable entries by department, year, section, and day order
+//     const groupedData = stafftimetable.reduce((acc, entry) => {
+//       const { department, batch_detail, class: classDetail, subject_detail } = entry;
+//       const key = `${department.dept_name}-${batch_detail.batch}-${classDetail.section}-${entry.dayorder}`;
+
+//       if (!acc[key]) {
+//         acc[key] = {
+//           department: department.dept_name,
+//           year: batch_detail.year,
+//           section: classDetail.section,
+//           [`dayorder_${entry.dayorder}`]: [],
+//         };
+//       }
+
+//       acc[key][`dayorder_${entry.dayorder}`].push({
+//         id: entry.id,
+//         period_no: entry.period_no,
+//         dayorder: entry.dayorder,
+//         staff_name: entry.register.firstName,
+//         staff_id: entry.user_id,
+//         subject_detail: {
+//           sub_code: entry.sub_code,
+//           sub_name: subject_detail.sub_name,
+//           color_name:subject_detail.color_name,
+//           color_code:subject_detail.color_code
+//           // You can add color_code and color_name here if needed
+//         },
+//       });
+
+//       return acc;
+//     }, {});
+
+//     return res.status(200).json({ data: Object.values(groupedData) });
+//   } else {
+//     return res.status(400).json({ message: "error" });
+//   }
+// };
+
+
+
 exports.allstafftimetable = async (req, res, next) => {
   const { dept_id, batch_id, class_code } = req.query;
   const result = await Timetable.findAll({ where: { dept_id, batch_id, class_code } });
@@ -260,11 +335,11 @@ exports.allstafftimetable = async (req, res, next) => {
         {
           model: Classes,
           attributes: ['section'],
-          require: true,
+          required: true,
         },
         {
           model: Subject,
-          attributes: ['sub_name','color_code','color_name'],
+          attributes: ['sub_name', 'color_code', 'color_name'],
           required: true,
         },
         {
@@ -278,15 +353,17 @@ exports.allstafftimetable = async (req, res, next) => {
     // Group timetable entries by department, year, section, and day order
     const groupedData = stafftimetable.reduce((acc, entry) => {
       const { department, batch_detail, class: classDetail, subject_detail } = entry;
-      const key = `${department.dept_name}-${batch_detail.batch}-${classDetail.section}-${entry.dayorder}`;
-
+      const key = `${department.dept_name}-${batch_detail.year}-${classDetail.section}`;
       if (!acc[key]) {
         acc[key] = {
           department: department.dept_name,
           year: batch_detail.year,
           section: classDetail.section,
-          [`dayorder_${entry.dayorder}`]: [],
         };
+      }
+
+      if (!acc[key][`dayorder_${entry.dayorder}`]) {
+        acc[key][`dayorder_${entry.dayorder}`] = [];
       }
 
       acc[key][`dayorder_${entry.dayorder}`].push({
@@ -298,20 +375,19 @@ exports.allstafftimetable = async (req, res, next) => {
         subject_detail: {
           sub_code: entry.sub_code,
           sub_name: subject_detail.sub_name,
-          color_name:subject_detail.color_name,
-          color_code:subject_detail.color_code
-          // You can add color_code and color_name here if needed
+          color_name: subject_detail.color_name,
+          color_code: subject_detail.color_code,
         },
       });
 
       return acc;
     }, {});
 
-    return res.status(200).json({ data: Object.values(groupedData) });
+    // Convert the grouped data to an array
+    const dataArray = Object.values(groupedData);
+
+    return res.status(200).json({ data: dataArray });
   } else {
     return res.status(400).json({ message: "error" });
   }
 };
-
-
-
