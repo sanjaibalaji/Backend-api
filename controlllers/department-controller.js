@@ -302,7 +302,7 @@ exports.departmentbatchlist = async (req, res, next) => {
         },
       ],
     };
-    console.log('Exam Types:', examTypes);
+   
     res.json(response);
   } catch (error) {
     console.log(error);
