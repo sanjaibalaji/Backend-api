@@ -6,6 +6,7 @@ const cors = require("cors");
 const session = require('express-session');
 const route = require('./routes/routes');
 const db = require("./models");
+const path = require('path')
 const app = express();
 
 var passports = require ('./middlewares/passport')
@@ -19,7 +20,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-app.use(express.static('public'));
+// app.use(express.static('public'));
+// app.use(express.static(path.join(__dirname, 'images')))
+app.use("/images", express.static(path.join(__dirname, 'images')));
 
 app.use(passport.initialize());
 app.use(passport.session());
