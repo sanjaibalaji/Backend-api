@@ -340,7 +340,7 @@ exports.allstafftimetable = async (req, res, next) => {
         {
           model: Subject,
           attributes: ['sub_name', 'color_code', 'color_name'],
-          required: true,
+          required: false,
         },
         {
           model: Register,
@@ -372,14 +372,17 @@ exports.allstafftimetable = async (req, res, next) => {
         dayorder: entry.dayorder,
         staff_name: entry.register.firstName,
         staff_id: entry.user_id,
-        subject_detail: {
+        subject_detail: entry.sub_code !== null ? {
           sub_code: entry.sub_code,
-          sub_name: subject_detail.sub_name,
-          color_name: subject_detail.color_name,
-          color_code: subject_detail.color_code,
-        },
-      });
-
+          sub_name: subject_detail && subject_detail.sub_name || null,
+          color_name: subject_detail && subject_detail.color_name || null,
+          color_code: subject_detail && subject_detail.color_code || null,
+        } : null,
+        
+      }
+      
+      );
+      console.log(subject_detail)
       return acc;
     }, {});
 
