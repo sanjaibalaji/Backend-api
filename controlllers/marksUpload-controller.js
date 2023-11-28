@@ -87,18 +87,77 @@ const db = require("../models");
 const MarksUpload = db.marks_uploads;
 const exceljs = require("exceljs"); // Require the exceljs library
 
+// exports.marksupload = async (req, res) => {
+//   try {
+//     // Get the dropdown value from the request body
+//     const { dept_code, batch_id, sub_code, examtype } = req.body;
+
+//     // Get the path to the uploaded Excel file
+//     const excelPath = req.file.path;
+//     console.log(excelPath);
+
+//     // Create an instance of the Excel workbook
+//     const workbook = new exceljs.Workbook();
+//     await workbook.xlsx.readFile(excelPath);
+
+//     // Assuming the data is in the first sheet, you can adjust this as needed
+//     const worksheet = workbook.getWorksheet(1);
+
+//     // Initialize an array to store the data for all rows
+//     const dataRows = [];
+
+//     // Start iterating from the second row (assuming the first row contains headers)
+//     for (let rowNumber = 2; rowNumber <= worksheet.rowCount; rowNumber++) {
+//       const row = worksheet.getRow(rowNumber);
+
+//       // Extract the values for user_id, obtained_marks, and total_marks from the current row
+//       const user_id = row.getCell("A").value; // Replace with the correct column name
+//       const obtained_marks = row.getCell("B").value; // Replace with the correct column name
+//       const total_marks = row.getCell("C").value; // Replace with the correct column name
+
+//       // Push the extracted data into the array
+//       dataRows.push({
+//         dept_code,
+//         batch_id,
+//         sub_code,
+//         examtype,
+//         user_id,
+//         obtained_marks,
+//         total_marks,
+//         excelData: excelPath,
+//       });
+//     }
+
+//     // Store the array of data in the database (you can use bulk create for efficiency)
+//     const newData = await MarksUpload.bulkCreate(dataRows);
+
+//     res.json(newData);
+//   } catch (error) {
+//     console.error(error);
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while processing your request." });
+//   }
+// };
+
+
+// const exceljs = require('exceljs');
+// const { MarksUpload } = require('../models');
+
 exports.marksupload = async (req, res) => {
   try {
     // Get the dropdown value from the request body
     const { dept_code, batch_id, sub_code, examtype } = req.body;
 
-    // Get the path to the uploaded Excel file
-    const excelPath = req.file.path;
-    console.log(excelPath);
+    // Get the base64-encoded Excel data from the request body
+    const base64Excel = req.body.excelData;
+
+    // Decode the base64 string into a Buffer
+    const buffer = Buffer.from(base64Excel, 'base64');
 
     // Create an instance of the Excel workbook
     const workbook = new exceljs.Workbook();
-    await workbook.xlsx.readFile(excelPath);
+    await workbook.xlsx.load(buffer);
 
     // Assuming the data is in the first sheet, you can adjust this as needed
     const worksheet = workbook.getWorksheet(1);
@@ -124,7 +183,7 @@ exports.marksupload = async (req, res) => {
         user_id,
         obtained_marks,
         total_marks,
-        excelData: excelPath,
+        excelData: base64Excel, // You may want to store the original base64 data as well
       });
     }
 
