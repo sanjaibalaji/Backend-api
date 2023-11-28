@@ -41,42 +41,88 @@ const db = require("../models");
 const EventUpload = db.event_uploads
 const fs = require('fs');
 const sequelize = require('sequelize')
+const path = require('path');
+
+
+// exports.eventsupload = async (req, res) => {
+//     try {
+//         let file = {};
+//         const { user_id, firstName, event_name, hosting_dept, date, start_time, end_time, chief_Guest, venue } = req.body;
+//         if (req.file) {
+//             file.path = req.file.path;
+//             file.name = req.file.filename;
+//         }
+//         const imageBuffer = await fs.promises.readFile(req.file.path);
+
+//         const dataRows = ({
+//             firstName,
+//             event_name,
+//             hosting_dept,
+//             date,
+//             user_id,
+//             start_time,
+//             end_time,
+//             chief_Guest,
+//             venue,
+//             event_image_path1: imageBuffer,
+//             event_image_path: file.path,
+//             event_image_name: file.name
+//         });
+
+//         const newData = await EventUpload.create(dataRows);
+//         console.log(newData);
+//         res.status(200).json({ newData });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: "An error occurred while processing your request." });
+//     }
+// }
 
 exports.eventsupload = async (req, res) => {
-    try {
-        let file = {};
-        const { user_id, firstName, event_name, hosting_dept, date, start_time, end_time, chief_Guest, venue } = req.body;
-        if (req.file) {
-            file.path = req.file.path;
-            file.name = req.file.filename;
-        }
-        const imageBuffer = await fs.promises.readFile(req.file.path);
+  try {
+    const { user_id, firstName, event_name, hosting_dept, date, start_time, end_time, chief_Guest, venue } = req.body;
+    const base64Image = req.body.image; // Assuming the front-end sends the image in a field named 'image'
 
-        const dataRows = ({
-            firstName,
-            event_name,
-            hosting_dept,
-            date,
-            user_id,
-            start_time,
-            end_time,
-            chief_Guest,
-            venue,
-            event_image_path1: imageBuffer,
-            event_image_path: file.path,
-            event_image_name: file.name
-        });
+    // Remove the header from the base64 string
+    const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
 
-        const newData = await EventUpload.create(dataRows);
-        console.log(newData);
-        res.status(200).json({ newData });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "An error occurred while processing your request." });
-    }
+    // Create a unique name for the image
+    const imageName = `${Date.now()}_${Math.floor(Math.random() * 1000)}.png`;
+
+    // Save the image to the server's folder
+    const imagePath = path.join('images', imageName);
+    
+    fs.writeFileSync(imagePath, base64Data, { encoding: 'base64' });
+
+    const imageBuffer = await fs.promises.readFile(imagePath);
+    const dataRows = ({
+                  firstName,
+                  event_name,
+                  hosting_dept,
+                   date,
+                   user_id,
+                   start_time,
+                   end_time,
+                   chief_Guest,
+                   venue,
+                   event_image_name: imageName,
+                   event_image_path: imagePath,
+                   event_image_path1: imageBuffer,
+                   
+               });
+               const newData = await EventUpload.create(dataRows);
+    // Respond with success message and image path
+    res.status(200).json({
+      message: 'Image uploaded successfully',
+      data: newData,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+
+
 }
-
-
 
 
 exports.upcomingevent= async (req, res) => {
