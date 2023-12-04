@@ -16,6 +16,7 @@ const auth11 = require('../controlllers/examDetails-controller')
 const auth12 = require('../controlllers/marksUpload-controller')
 const auth13 = require('../controlllers/eventUpload-controller')
 const auth14 = require('../controlllers/dashboard-controller')
+const auth15 = require('../controlllers/leaveOnduty-controller')
 const  { fuleUpload }  = require('../middlewares/fileUpload');
 
 
@@ -65,6 +66,10 @@ route.post('/upcomingevent', fuleUpload.single('file'),auth13.upcomingevent );
 route.post('/finishedevent', fuleUpload.single('file'),auth13.finishedevent );
 route.post('/createdashboard',auth14.createdashboard);
 route.post('/dashboard',auth14.getdashboard)
+route.post('/leave',auth15.leave)
+route.post('/onduty',auth15.onduty)
+route.post('/getleavelist',auth15.getleavelist)
+
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
