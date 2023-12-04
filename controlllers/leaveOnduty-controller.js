@@ -7,8 +7,6 @@ exports.leave = async (req, res, next) => {
       req_type: leaveData.req_type,
       from_date: leaveData.from_date,
       to_date: leaveData.to_date,
-      from_time: leaveData.from_time,
-      to_time: leaveData.to_time,
       no_of_days: leaveData.no_of_days,
       duration: leaveData.duration,
       sessions: leaveData.sessions,
