@@ -31,12 +31,10 @@ exports.onduty = async (req, res, next) => {
     try {
       const ondutyDataArray = req.body.map((ondutyData) => ({
         req_type: ondutyData.req_type,
+        user_id:ondutyData.user_id,
         from_date: ondutyData.from_date,
-        to_date: ondutyData.to_date,
         from_time: ondutyData.from_time,
         to_time: ondutyData.to_time,
-        period: ondutyData.period,
-        duration: ondutyData.duration,
         sessions: ondutyData.sessions,
         reason: ondutyData.reason,
       }));

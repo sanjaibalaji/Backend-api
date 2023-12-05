@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   leaveonduty.init({
     req_type: DataTypes.STRING,
+    user_id:DataTypes.INTEGER,
     from_date: DataTypes.DATE,
     to_date: DataTypes.DATE,
     from_time: DataTypes.TIME,
@@ -22,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     no_of_days: DataTypes.INTEGER,
     duration: DataTypes.STRING,
     sessions: DataTypes.STRING,
-    period: DataTypes.STRING,
     reason: DataTypes.STRING,
     is_approved: DataTypes.BOOLEAN
   }, {
