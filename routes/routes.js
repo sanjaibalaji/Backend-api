@@ -69,6 +69,7 @@ route.post('/dashboard',auth14.getdashboard)
 route.post('/leave',auth15.leave)
 route.post('/onduty',auth15.onduty)
 route.post('/getleavelist',auth15.getleavelist)
+route.post('/leavedetails',auth15.getleavedetails)
 
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));

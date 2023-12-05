@@ -68,3 +68,22 @@ exports.onduty = async (req, res, next) => {
       }
     };
   
+    exports.getleavedetails = async (req, res, next) => {
+      try {
+        const { user_id } = req.body; // Assuming user_id is a parameter in the request
+    
+        // Query the database for entries where isApproved is null and user_id matches
+        const result = await Leaveonduty.findAll({
+          where: {
+           
+            user_id: user_id, // Adjust this line based on your actual column name
+          },
+        });
+    
+        return res.status(200).json({ data: result });
+      } catch (error) {
+        console.error("Error fetching unapproved leave entries:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+    };
+    
