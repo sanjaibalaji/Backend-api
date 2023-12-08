@@ -70,7 +70,7 @@ exports.onduty = async (req, res, next) => {
   
     exports.getleavedetails = async (req, res, next) => {
       try {
-        const { user_id } = req.body; // Assuming user_id is a parameter in the request
+        const { user_id } = req.query; // Assuming user_id is a parameter in the request
     
         // Query the database for entries where isApproved is null and user_id matches
         const result = await Leaveonduty.findAll({
@@ -78,7 +78,9 @@ exports.onduty = async (req, res, next) => {
            
             user_id: user_id, // Adjust this line based on your actual column name
           },
+         
         });
+        const update = await Leaveonduty.update({is_approved: req.body.is_approved }, { where: { user_id:user_id } })
     
         return res.status(200).json({ data: result });
       } catch (error) {
