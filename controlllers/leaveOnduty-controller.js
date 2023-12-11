@@ -4,6 +4,7 @@ const Leaveonduty = db.leaveonduty;
 exports.leave = async (req, res, next) => {
   try {
     const leaveDataArray = req.body.map((leaveData) => ({
+      user_id:leaveData.user_id,
       req_type: leaveData.req_type,
       from_date: leaveData.from_date,
       to_date: leaveData.to_date,
