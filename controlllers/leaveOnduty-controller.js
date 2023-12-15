@@ -81,7 +81,7 @@ exports.onduty = async (req, res, next) => {
           },
          
         });
-        const update = await Leaveonduty.update({is_approved: req.body.is_approved }, { where: { user_id:user_id } })
+        const update = await Leaveonduty.update({is_approved: req.body.is_approved }, { where: { user_id:user_id,id:id } })
     
         return res.status(200).json({ data: result });
       } catch (error) {
