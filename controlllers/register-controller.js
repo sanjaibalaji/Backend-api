@@ -8,6 +8,7 @@ const nodemailer = require("nodemailer")
 const crypto = require("crypto")
 const bcrypt = require('bcrypt');
 const { error } = require("console");
+const { AsyncQueueError } = require("sequelize");
 
 
 
@@ -210,6 +211,30 @@ exports.resetPassword = async (req, res, next) => {
   }
 }
 
-
+exports.forms = async (req,res,next) => {
+  const {email} = req.query
+  const {batch_id,sessions,class_code,dept_code,year} = req.body
+    
+   const data ={
+    batch_id : req.body.batch_id,
+    class_code : req.body.class_code,
+    dept_code : req.body.dept_code,
+    sessions : req.body.sessions,
+    year : req.body.year
+   }
+   try {
+  const results = await Register.update(data,{where:{email:email}}) 
+  if(results) {
+    return res.status(200).json({message:"data updated"})
+  } else {
+    console.log(error)
+    return res.status(404).json({message:"error"})
+    
+  }
+} catch (error) {
+  console.log(error);
+  return res.status(500).json({message:"Internal server error"})
+}
+}
 
 

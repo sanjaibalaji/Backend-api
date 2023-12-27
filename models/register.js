@@ -23,6 +23,21 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       type: DataTypes.STRING
     },
+    batch_id: {
+       type:DataTypes.INTEGER
+    },
+    sessions: {
+      type:DataTypes.STRING
+   },
+   class_code: {
+    type:DataTypes.INTEGER
+ },
+ dept_code: {
+  type:DataTypes.INTEGER
+},
+year: {
+  type:DataTypes.INTEGER
+},
     lastName: {
       type: DataTypes.STRING
     },

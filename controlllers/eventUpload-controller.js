@@ -201,7 +201,7 @@ exports.upcomingevent= async (req, res) => {
           return {
             eventname:event.event_name, // Change this value as needed
             hostdept: event.hosting_dept,
-            guest: event.chief_Guest,
+            cguest: event.chief_Guest,
             venue: event.venue,
             image: imageUrl, // Assuming this is the URL to the image
             
