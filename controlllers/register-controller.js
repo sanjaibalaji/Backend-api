@@ -213,13 +213,12 @@ exports.resetPassword = async (req, res, next) => {
 
 exports.forms = async (req,res,next) => {
   const {email} = req.query
-  const {batch_id,sessions,class_code,dept_code,year} = req.body
+  const {batch,session,dept_code,year} = req.body
     
    const data ={
-    batch_id : req.body.batch_id,
-    class_code : req.body.class_code,
+    batch : req.body.batch,
     dept_code : req.body.dept_code,
-    sessions : req.body.sessions,
+    session : req.body.session,
     year : req.body.year
    }
    try {
