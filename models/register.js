@@ -23,15 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       type: DataTypes.STRING
     },
-    batch_id: {
+    batch: {
        type:DataTypes.INTEGER
     },
-    sessions: {
-      type:DataTypes.STRING
-   },
-   class_code: {
-    type:DataTypes.INTEGER
- },
+    session: {
+      type:DataTypes.INTEGER
+    },
  dept_code: {
   type:DataTypes.INTEGER
 },
