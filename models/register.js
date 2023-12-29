@@ -59,7 +59,7 @@ year: {
       allowNull: true
     },
     role_name: {
-      type: DataTypes.ENUM('Staff','HOD','Admin','Student'),
+      type: DataTypes.ENUM('ST','HOD','CA','STAFF'),
       allowNull: true,
      
     },
