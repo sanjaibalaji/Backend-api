@@ -1,6 +1,9 @@
 const passport = require('passport');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
+const authenticateToken = require('../middlewares/token-validation')
+const roleAccess = require('../middlewares/access')
+
 const auth = require('../controlllers/register-controller')
 const auth1 = require('../controlllers/roles-controller')
 const auth2 = require('../controlllers/subjectDetails-controller')
@@ -17,6 +20,7 @@ const auth12 = require('../controlllers/marksUpload-controller')
 const auth13 = require('../controlllers/eventUpload-controller')
 const auth14 = require('../controlllers/dashboard-controller')
 const auth15 = require('../controlllers/leaveOnduty-controller')
+
 const  { fuleUpload }  = require('../middlewares/fileUpload');
 
 
@@ -60,7 +64,9 @@ route.post('/studenttimetable',auth9.studenttimetable)
 route.post('/datestudenttimetable',auth9.datestudenttimetable)
 route.post('/createexam',auth11.examtypes)
 route.get('/getexamtypes',auth11.getexamtypes)
-route.post('/marksupload', upload.single('file'), auth12.marksupload);
+// marksupload api accessible for only staff
+route.post('/marksupload',authenticateToken,roleAccess.checkRole(['HOD','ST']), upload.single('file'), auth12.marksupload);
+// eventupload api accessible for only staff
 route.post('/eventupload', fuleUpload.single('file'),auth13.eventsupload );
 route.post('/upcomingevent', fuleUpload.single('file'),auth13.upcomingevent );
 route.post('/finishedevent', fuleUpload.single('file'),auth13.finishedevent );

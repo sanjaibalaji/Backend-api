@@ -3,7 +3,7 @@ const { EMAIL_USERNAME, EMAIL_PASSWORD } = require('../config/db.config')
 const Register = db.register;
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const { SECRET } = require("../config");
+const { SECRET } = require("../config/index");
 const nodemailer = require("nodemailer")
 const crypto = require("crypto")
 const bcrypt = require('bcrypt');
@@ -41,12 +41,14 @@ exports.register = async (req, res, next) => {
   };
   const mail = await transporter.sendMail(mailOptions);
   if (mail.accepted.length) {
+    const role_name = req.body.role_name;
+const rolesString = Array.isArray(role_name) ? role_name.join(',') : role_name;
     const register = {
       email: req.body.email,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       college_name:req.body.college_name,
-      role_name:req.body.role_name,
+      role_name: rolesString,
       verificationToken
     }
 
@@ -134,7 +136,7 @@ exports.login = async (req, res, next) => {
       { expiresIn: "7 days" }
     );
     let result = {
-      role: user.role_name,
+      role_name: user.role_name,
       email: user.email,
       token: `${token}`,
       expiresIn: 168,   
