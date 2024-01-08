@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   dashboard.init({
     name: DataTypes.STRING,
-    subname: DataTypes.STRING
+    subname: DataTypes.STRING,
+    role_name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'dashboard',

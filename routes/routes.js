@@ -65,7 +65,8 @@ route.post('/datestudenttimetable',auth9.datestudenttimetable)
 route.post('/createexam',auth11.examtypes)
 route.get('/getexamtypes',auth11.getexamtypes)
 // marksupload api accessible for only staff
-route.post('/marksupload',authenticateToken,roleAccess.checkRole(['HOD','ST']), upload.single('file'), auth12.marksupload);
+// route.post('/marksupload',authenticateToken,roleAccess.checkRole(['ST']), upload.single('file'), auth12.marksupload);
+route.post('/marksupload', upload.single('file'), auth12.marksupload);
 // eventupload api accessible for only staff
 route.post('/eventupload', fuleUpload.single('file'),auth13.eventsupload );
 route.post('/upcomingevent', fuleUpload.single('file'),auth13.upcomingevent );

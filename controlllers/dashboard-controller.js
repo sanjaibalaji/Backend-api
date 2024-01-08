@@ -3,10 +3,11 @@ const Dashboard = db.dashboard;
 
 exports.createdashboard = async(req,res,next) => {
     try{
-        const {name,subname} = req.body;
+        const {name,subname,role_name} = req.body;
         const dashboard ={
             name:req.body.name,
             subname:req.body.subname,
+            role_name:req.body.role_name
         }
         const result = await Dashboard.create(dashboard)
         if(result){
@@ -28,6 +29,7 @@ exports.getdashboard = async(req,res,next) => {
         const resultData = result.map((item) => ({
             name: item.name,
             subname: item.subname,
+            role_name:item.role_name
           }));
           return res.status(200).json({ data: resultData });
     } else {
