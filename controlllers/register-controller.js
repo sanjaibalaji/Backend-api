@@ -136,6 +136,7 @@ exports.login = async (req, res, next) => {
       { expiresIn: "7 days" }
     );
     let result = {
+      user_id: user.user_id,
       role_name: user.role_name,
       email: user.email,
       token: `${token}`,
