@@ -25,11 +25,12 @@ exports.createdashboard = async(req,res,next) => {
 exports.getdashboard = async(req,res,next) => {
     try{
     const result = await Dashboard.findAll()
+    // const rolesString = Array.isArray(role_name) ? role_name.join(',') : role_name;
     if(result){
         const resultData = result.map((item) => ({
             name: item.name,
             subname: item.subname,
-            role_name:item.role_name
+            role_name: item.role_name.split(','),
           }));
           return res.status(200).json({ data: resultData });
     } else {
