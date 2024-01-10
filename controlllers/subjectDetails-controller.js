@@ -12,6 +12,8 @@ exports.subjects = async (req, res, next) => {
       const subjects = {
         sub_code: req.body.sub_code,
         sub_name:req.body.sub_name,
+        color_name:req.body.sub_name,
+        color_code:req.body.sub_name,
       }
       const result = await SubjectDetails.create(subjects)
       if (result) {
