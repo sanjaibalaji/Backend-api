@@ -4,8 +4,8 @@ const Classes = db.classes;
 const BatchDetails = db.batch_details;
 
 exports.classes = async (req, res, next) => {
-    const {dept_id,section,strength,batch_id} = req.body;
-    if (!dept_id) {
+    const {dept_code,section,strength,batch_id} = req.body;
+    if (!dept_code) {
         return res.status(400).json({ error: 'Enter the dept id' });
       }
       if(!section) {
@@ -18,7 +18,7 @@ exports.classes = async (req, res, next) => {
         return res.status(400).json({ error: 'Enter the batch' });
       }
       const classes = {
-        dept_id: req.body.dept_id,
+        dept_code: req.body.dept_code,
         section:req.body.section,
         strength: req.body.strength,
         batch_id:req.body.batch_id
