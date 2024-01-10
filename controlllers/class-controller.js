@@ -21,7 +21,8 @@ exports.classes = async (req, res, next) => {
         dept_code: req.body.dept_code,
         section:req.body.section,
         strength: req.body.strength,
-        batch_id:req.body.batch_id
+        batch_id:req.body.batch_id,
+        class_code:req.body.class_code
       }
       const result = await Classes.create(classes)
       if (result) {
