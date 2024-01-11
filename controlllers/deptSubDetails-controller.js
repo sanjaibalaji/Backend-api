@@ -3,9 +3,9 @@ const Deptsubdetails = db.dept_sub_details;
 const subjectDetails = db.subject_details
 
 exports.deptsubdetails = async (req, res, next) => {
-    const {dept_id,sub_code,year,batch_id} = req.body;
-    if (!dept_id) {
-        return res.status(400).json({ error: 'Enter the dept id' });
+    const {dept_code,sub_code,year,batch_id} = req.body;
+    if (!dept_code) {
+        return res.status(400).json({ error: 'Enter the dept code' });
       }
       if(!sub_code) {
         return res.status(400).json({ error: 'Enter the sub_id' });
@@ -17,7 +17,7 @@ exports.deptsubdetails = async (req, res, next) => {
         return res.status(400).json({ error: 'Enter the batch' });
       }
       const deptsubdetails = {
-        dept_id: req.body.dept_id,
+        dept_code: req.body.dept_code,
         sub_code:req.body.sub_code,
         year: req.body.year,
         batch_id:req.body.batch_id
