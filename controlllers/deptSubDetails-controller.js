@@ -13,7 +13,7 @@ exports.deptsubdetails = async (req, res, next) => {
       if(!year) {
         return res.status(400).json({ error: 'Enter the year' });
       }
-      if(!batch) {
+      if(!batch_id) {
         return res.status(400).json({ error: 'Enter the batch' });
       }
       const deptsubdetails = {
