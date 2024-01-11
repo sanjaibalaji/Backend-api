@@ -3,16 +3,16 @@ const Staffsubdetails = db.staff_sub_details;
 const subjectDetails = db.subject_details
 
 exports.staffsubdetails = async (req, res, next) => {
-    const {staff_id,sub_id} = req.body;
+    const {staff_id,sub_code} = req.body;
     if (!staff_id) {
         return res.status(400).json({ error: 'Enter the staff id' });
       }
-      if(!sub_id) {
+      if(!sub_code) {
         return res.status(400).json({ error: 'Enter the sub_id' });
       }
       const staffsubdetails = {
         staff_id: req.body.staff_id,
-        sub_id:req.body.sub_id
+        sub_code:req.body.sub_code
       }
       const result = await Staffsubdetails.create(staffsubdetails)
       if (result) {
