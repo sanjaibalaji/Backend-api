@@ -34,6 +34,7 @@ exports.onduty = async (req, res, next) => {
         req_type: ondutyData.req_type,
         user_id:ondutyData.user_id,
         from_date: ondutyData.from_date,
+        to_date:this.onduty.to_date,
         from_time: ondutyData.from_time,
         to_time: ondutyData.to_time,
         sessions: ondutyData.sessions,

@@ -59,7 +59,7 @@ route.get('/mytimetable',auth10.staffmytimetable)
 route.get('/stafftimetable',auth10.stafftimetable)
 route.get('/allstafftimetable',auth10.allstafftimetable)
 route.get('/deptsublist',auth5.deptsubjectlist)
-route.post('/updatetimetable',auth7.updatetimetable)
+route.post('/updatetimetable',auth7.updatetimetable) //hold
 route.post('/studenttimetable',auth9.studenttimetable)
 route.post('/datestudenttimetable',auth9.datestudenttimetable)
 route.post('/createexam',auth11.examtypes)
