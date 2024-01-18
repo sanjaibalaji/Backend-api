@@ -110,6 +110,7 @@ exports.upcomingevent= async (req, res) => {
           const endTime = formatTime(event.end_time);
           const imageUrl = `https://odooformybusiness.com/${event.event_image_path}`;
           return {
+            id:event.id,
             eventname:event.event_name, // Change this value as needed
             hostdept: event.hosting_dept,
             cguest: event.chief_Guest,
@@ -165,6 +166,7 @@ exports.upcomingevent= async (req, res) => {
           const endTime = formatTime(event.end_time);
           const imageUrl = `https://odooformybusiness.com/${event.event_image_path}`;
           return {
+            id:event.id,
             eventname:event.event_name, // Change this value as needed
             hostdept: event.hosting_dept,
             cguest: event.chief_Guest,
