@@ -20,6 +20,7 @@ const auth12 = require('../controlllers/marksUpload-controller')
 const auth13 = require('../controlllers/eventUpload-controller')
 const auth14 = require('../controlllers/dashboard-controller')
 const auth15 = require('../controlllers/leaveOnduty-controller')
+const auth16 = require('../controlllers/venue-controller')
 
 const  { fuleUpload }  = require('../middlewares/fileUpload');
 
@@ -79,6 +80,8 @@ route.post('/getleavelist',auth15.getleavelist)
 route.post('/leavedetails',auth15.getleavedetails)
 route.post('/forms',auth.forms)
 route.delete('/deleteevent',auth13.deleteevent)
+route.post("/venue", auth16.venue);
+route.get("/venuelist",auth16.venuelist)
 
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
