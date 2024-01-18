@@ -200,3 +200,10 @@ exports.upcomingevent= async (req, res) => {
     return `${formattedHour}:${minute.toString().padStart(2, '0')} ${ampm}`;
   }
   
+  exports.deleteevent = async (req,res,next) => {
+    const id = req.query.id
+    const result = await EventUpload.destroy({where:{id:req.query.id}})
+    if (result) {
+      return res.status(200).json({message:"event deleted successfully"})
+    }
+  }
