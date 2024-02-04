@@ -21,6 +21,10 @@ const auth13 = require('../controlllers/eventUpload-controller')
 const auth14 = require('../controlllers/dashboard-controller')
 const auth15 = require('../controlllers/leaveOnduty-controller')
 const auth16 = require('../controlllers/venue-controller')
+const auth17 = require('../controlllers/rioadmin-controller')
+const auth18 = require('../controlllers/rioadminDashboard-controller')
+const auth19 = require('../controlllers/new_college_registration-controller')
+const auth20 = require('../controlllers/collegeadminDashboard-controller')
 
 const  { fuleUpload }  = require('../middlewares/fileUpload');
 
@@ -82,6 +86,15 @@ route.post('/forms',auth.forms)
 route.delete('/deleteevent',auth13.deleteevent)
 route.post("/venue", auth16.venue);
 route.get("/venuelist",auth16.venuelist)
+route.post("/rioadmin_register",auth17.register)
+route.post("/rioadmin_login",auth17.login)
+route.post("/rioadmin_logout",auth17.logout)
+route.post("/rioadmin_createdashboard",auth18.createdashboard)
+route.post("/rioadmin_dashboard",auth18.getdashboard)
+route.post("/rioadmin_newcollegeregister",auth19.collegeregistration)
+route.post("/collegeadmin-createdashboard",auth20.createdashboard)
+route.post("/collegeadmin-dashboard",auth20.getdashboard)
+
 
 
 route.get('/auth', passport.authenticate('google', { scope: ['profile', 'email'] }));
